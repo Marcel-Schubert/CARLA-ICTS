@@ -44,7 +44,9 @@ class GIDASBenchmark(gym.Env):
         self.clock = pygame.time.Clock()
         print("Load World")
         hud = HUD(Config.width, Config.height)
-        self.client.load_world('Town01_my')
+        with open("./assets/Town01_my.xodr") as odr:
+            self.world = self.client.generate_opendrive_world(odr.read())
+        # self.client.load_world('Town01_my')
         self.first_sleep = True 
         wld = self.client.get_world()
         self.extract = False

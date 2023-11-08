@@ -2,7 +2,7 @@ import os
 import time
 from matplotlib import pyplot as plt
 import torch
-from model import A2C
+from .model import A2C
 from config import Config
 import numpy as np
 import torch.nn.functional as F
