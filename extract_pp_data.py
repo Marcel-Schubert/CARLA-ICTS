@@ -112,12 +112,13 @@ if __name__ == '__main__':
     Config.port = args.port
     Config.qw = args.qw
     if args.int:
-        Config.scenarios = ["01_int","02_int","03_int"]
+        # TODO PAGI: ADD SCENARIO HERE
+        Config.scenarios = ["01_int","02_int","03_int", "04_int"]
     else:
         Config.scenarios = ["01_non_int","02_non_int", "03_non_int"]
     print(Config.scenarios)
-    p = Process(target=run_server)
-    p.start()
+    # p = Process(target=run_server)
+    # p.start()
     t.sleep(20)
 
     #p2 = Process(target=run_test_server)

@@ -31,7 +31,8 @@ def run(args):
         agent = A2CCadrl(env.world, env.map, env.scene,conn=None)
         env.reset_agent(agent)
     else:
-        path = "your model for eval"
+        path = "./models/model_3000.pth"
+        # path = None
         agent = HyREALA2C(env.world, env.map, env.scene,conn=None)
         env.reset_agent(agent)
 
@@ -92,19 +93,20 @@ if __name__ == '__main__':
 
     if args.test:
         if args.test == "all":
-            Config.scenarios = ['01_int','02_int','03_int','01_non_int','02_non_int','03_non_int']
+            # TODO PAGI: ADD SCENARIO HERE
+            Config.scenarios = ['01_int','02_int','03_int', '04_int', '01_non_int','02_non_int','03_non_int']
         else:
             Config.scenarios = [args.test]
     print(args.test)
     print('Env. port: {}'.format(Config.port))
 
-    p = Process(target=run_server)
-    p.start()
-    time.sleep(20)
+    # p = Process(target=run_server)
+    # p.start()
+    # time.sleep(20)
     #if Config.server:
     #    p2 = Process(target=run_test_server)
     #    p2.start()
     #    t.sleep(20)
     
     run(args)
-    os.kill(os.getppid(), signal.SIGHUP)
+    # os.kill(os.getppid(), signal.SIGHUP)

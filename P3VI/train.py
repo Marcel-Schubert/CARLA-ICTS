@@ -13,15 +13,15 @@ import torch.nn.functional as F
 import time
 
 
-path_int = "path to interactive trajectories"
-path_non_int = "path to non-interactive trajectories"
+path_int = "./data/int_new_prelim.npy"
+path_non_int = "./data/non_int_new_prelim.npy"
 
 observed_frame_num = 15
 predicting_frame_num = 20
 batch_size = 256
 train_samples = 1
 test_samples = 1
-epochs = 2000
+epochs = 200
 latent_dim = 24
 
 def normalize(trajectories, shift_x=None, shift_y=None, scale=None):

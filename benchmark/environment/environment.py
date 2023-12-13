@@ -11,7 +11,9 @@ from benchmark.environment.world import World
 from benchmark.environment.hud import HUD
 from benchmark.learner_example import Learner
 import timeit
-from config import Config, Config01, Config02, Config03,  IConfig01, IConfig02, IConfig03
+
+## TODO PAGI: import configs here
+from config import Config, Config01, Config02, Config03,  IConfig01, IConfig02, IConfig03, IConfig04
 from benchmark.scenarios.scenario import Scenario
 
 
@@ -115,6 +117,16 @@ class GIDASBenchmark(gym.Env):
                 self.episodes.extend(Config03().get_training())
                 self.val_episodes.extend(Config03().get_validation())
                 self.test_episodes.extend(Config03().get_test())
+
+            ## TODO PAGI: add other scenarios here
+            ## ACTUAL EDIT00
+            elif scenario == "04_int":
+                self.episodes.extend(IConfig04().get_training())
+                self.val_episodes.extend(IConfig04().get_validation())
+                self.test_episodes.extend(IConfig04().get_test())
+
+
+
             else:
                 # Used for backwards compatibility
                 for speed in np.arange(Config.ped_speed_range[0], Config.ped_speed_range[1] + 0.1, 0.1):
@@ -172,6 +184,7 @@ class GIDASBenchmark(gym.Env):
             i+=1
             self.world.world.tick()
             if i > 100:
+
                 print(i)
         #print("Is none", self.world.semseg_sensor.array is None)
         observation, risk, ped_observable = self._get_observation()

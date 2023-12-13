@@ -112,8 +112,8 @@ if __name__ == '__main__':
     #    Config.scenarios = ["01_non_int","02_non_int", "03_non_int"]
     Config.scenarios = [args.test]
     print(Config.scenarios)
-    p = Process(target=run_server)
-    p.start()
+    # p = Process(target=run_server)
+    # p.start()
     t.sleep(20)
 
     #p2 = Process(target=run_test_server)

@@ -3,7 +3,7 @@ import sys
 from A2C.a2c.a2ccadrl import A2CCadrl
 from A2C.a2c.hyreal_a2c import HyREALA2C
 from utils.connector import Connector 
-sys.path.append("your path to a2c code")
+sys.path.append("/E/CARLA-ICTS")
 import os
 import yaml
 import argparse
@@ -95,14 +95,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
     globals()["server"] = args.server
     Config.server = args.server
-    args.config = os.path.join('your path to configs', args.config+".yaml")
+    args.config = os.path.join('./hyreal_lite/config', args.config+".yaml")
     Config.port = args.port
     Config.qw = args.qw
     Config.despot_port = args.despot_port
     print('Env. port: {}'.format(Config.port))
 
-    p = Process(target=run_server)
-    p.start()
+    # p = Process(target=run_server)
+    # p.start()
     t.sleep(20)
     #if Config.server:
     #    p2 = Process(target=run_test_server)

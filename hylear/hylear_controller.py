@@ -144,7 +144,8 @@ class HyLEAR(RLAgent):
         if self.scenario[0] in [1, 3, 4, 7, 8, 10]:
             relaxed_sidewalk[13:16, y - sidewalk_length: y + sidewalk_length] = sidewalk_cost
             relaxed_sidewalk[4:7, y - 10: sidewalk_length + sidewalk_length] = sidewalk_cost
-        elif self.scenario[0] in [2, 5, 6, 9, "01_int", "02_int", "03_int", "01_non_int", "02_non_int", "03_non_int"]:
+            # TODO PAGI: ADD SCENARIO HERE
+        elif self.scenario[0] in [2, 5, 6, 9, "01_int", "02_int", "03_int", "04_int", "01_non_int", "02_non_int", "03_non_int"]:
             relaxed_sidewalk[94:97, y - sidewalk_length: y + sidewalk_length] = sidewalk_cost
             relaxed_sidewalk[103:106, y - sidewalk_length: y + sidewalk_length] = sidewalk_cost
         elif self.scenario[0] == 11:

@@ -116,7 +116,7 @@ class A2CTrainer():
             cat_tensor = torch.from_numpy(np.array([reward, velocity_x * 3.6, velocity_y * 3.6,
                                                     speed_action])).cuda().type(torch.cuda.FloatTensor)
             
-            logit, value, (hx, cx) = self.network(input_tensor, (hx, cx), cat_tensor)
+            logit, value, (hx, cx) = self.network.forward(input_tensor, (hx, cx), cat_tensor)
 
             prob = F.softmax(logit, dim=-1)
             m = Categorical(prob)
@@ -314,7 +314,7 @@ class A2CTrainer():
                                                             speed_action])).cuda().type(torch.cuda.FloatTensor)
                 start_time = time.time()
                 with torch.no_grad():
-                    logit, value, (hx, cx) = self.network(input_tensor, (hx, cx), cat_tensor)
+                    logit, value, (hx, cx) = self.network.forward(input_tensor, (hx, cx), cat_tensor)
 
                 prob = F.softmax(logit, dim=-1)
                 m = Categorical(prob)
@@ -398,13 +398,22 @@ class A2CTrainer():
                 num_accidents/current_episode, num_nearmisses/current_episode, num_goals/current_episode))
             print("Velocity Goal: {:.4f}, Exec time: {:.4f},TTG: {:.4f}".format(velocity_goal/current_episode, np.mean(exec_time_list), np.mean(time_to_goal_list)))
             print(current_episode)
-        print(round(num_accidents/current_episode,2), " % ",
-          round(num_nearmisses/current_episode,2), " % ",
-          round(num_goals/current_episode,2)," % ",
-          round(np.mean(time_to_goal_list),2), " % ",
-          round(np.mean(exec_time_list),2), " % ",
-          )
+
         print('-' * 60)
+        print(f"{'avg. crash rate:':20}{num_accidents/current_episode:.2f}%")
+        print(f"{'avg. nearmiss rate:':20}{num_nearmisses/current_episode:.2f}%")
+        print(f"{'avg. goal rate:':20}{num_goals/current_episode:.2f}%")
+        print(f"{'avg. time to goal:':20}{np.mean(time_to_goal_list):.2f}s")
+        print(f"{'avg. exec time:':20}{np.mean(exec_time_list):.2f}ms")
+        print('-' * 60)
+
+        # print(round(num_accidents/current_episode,2), " % ",
+        #   round(num_nearmisses/current_episode,2), " % ",
+        #   round(num_goals/current_episode,2)," % ",
+        #   round(np.mean(time_to_goal_list),2), " % ",
+        #   round(np.mean(exec_time_list),2), " % ",
+        #   )
+        # print('-' * 60)
         self.env.mode = "TRAINING"
         self.env.reset_iterator()
 

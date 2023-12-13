@@ -137,6 +137,66 @@ class IConfig03(ScenarioConfig):
         print(len(scenes))
         return scenes
 
+
+
+
+
+## TODO PAGI: ADD SCENARIO CONFIG HERE
+## ACTUAL EDIT
+class IConfig04(ScenarioConfig):
+    def __init__(self):
+        #self.ped_speed_range = [1.2,1.6]
+        #self.spwaning_distances = [25,35]
+        # self.ped_speed_range = [1.6,2.0] # 1.8
+        self.ped_speed_range = [2.4, 2.8]
+
+
+        self.spwaning_distances = [47.5,55] # 28
+        self.walking_distances = [5,8] # 5
+        self.looking_distances = [0.85,0.85] # 0.85
+        self.crossing_distances = [3,5] # 3
+        self.reenter_distances = [8,8] #8
+        self.op_reenter_distances = [5,5] #5
+        self.character = ["forcing", "yielding"]#, "yielding"]
+        #self.character = ["yielding", "forcing"]
+        super(IConfig04,self).__init__()
+
+    def get_scenes(self):
+        scenes = []
+        for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
+            for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
+                for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+1,1):
+                    for looking_distance in np.arange(self.looking_distances[0], self.looking_distances[1]+0.01,0.01):
+                        for crossing_distance in np.arange(self.crossing_distances[0], self.crossing_distances[1]+1,1):
+                            #for reenter_distance in np.arange(self.reenter_distances[0], self.reenter_distances[1]+1,1):
+                                #for op_reenter_distance in np.arange(self.op_reenter_distances[0], self.op_reenter_distances[1]+1,1):
+                                    for char in self.character:
+                                        conf = ControllerConfig(speed)
+                                        conf.spawning_distance = int(spawning_distance)
+                                        conf.walking_distance = walking_distance
+                                        conf.looking_distance = looking_distance
+                                        conf.crossing_distance = crossing_distance
+                                        conf.reenter_distance = crossing_distance + 3 # functional dependence for predictability
+                                        conf.op_reenter_distance = crossing_distance
+                                        conf.char = char
+                                        scenes.append(("04_int", conf))
+        print(len(scenes))
+        return scenes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Config01(ScenarioConfig):
     def __init__(self):
         self.ped_speed_range = [1.6,2.0]
@@ -247,7 +307,8 @@ class Config:
     ped_speed_range = [1.8, 2.2]
     ped_distance_range = [25, 30]
     # car_speed_range = [6, 9]
-    scenarios = ['01_int','02_int','03_int','01_non_int','02_non_int','03_non_int']#,'02_non_int','03_non_int']#,'02_non_int']#,"02_int", "03_int"  #, '02', '03', '04', '05', '06', '07', '08', '09']
+    #TODO PAGI: ADD SCENARIO HERE
+    scenarios = ['01_int','02_int','03_int', "04_int",'01_non_int','02_non_int','03_non_int']#,'02_non_int','03_non_int']#,'02_non_int']#,"02_int", "03_int"  #, '02', '03', '04', '05', '06', '07', '08', '09']
     #scenarios = ['01_int','02_int','03_int']
     #scenarios = ['01','02', '03', '04', '05', '06', '07', '08', '09']
     val_scenarios = ['06'],# '02', '03', '04', '05', '06', '07', '08', '09']

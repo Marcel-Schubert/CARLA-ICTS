@@ -62,7 +62,7 @@ class A2CCadrl(RLAgent):
         if self.prev_speed is not None:
             #print("1",self.prev_speed, Config.max_speed)
             if action == 0 and self.prev_speed > (Config.max_speed + 3*0.2778):
-                print("2",self.prev_speed, Config.max_speed)
+                # print("2",self.prev_speed, Config.max_speed)
                 reward -= Config.too_fast
 
         if goal_dist < 3 or dist > 100:
@@ -138,7 +138,7 @@ class A2CCadrl(RLAgent):
         if self.prev_speed is not None:
             #print("1",self.prev_speed, Config.max_speed)
             if action == 0 and self.prev_speed > (Config.max_speed + 3*0.2778):
-                print("2",self.prev_speed, Config.max_speed)
+                # print("2",self.prev_speed, Config.max_speed)
                 reward -= Config.too_fast
 
         # Penalize braking/acceleration actions to get a smoother ride

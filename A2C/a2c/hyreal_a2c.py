@@ -25,7 +25,7 @@ class HyREALA2C(RLAgent):
             self.conn.establish_connection()
             m = self.conn.receive_message()
             print(m)  # RESET
-        self.ped_pred = P3VIWrapper("your path to p3vi", 60, 80)
+        self.ped_pred = P3VIWrapper("./_out/weights/new_200_256_all_seed_0_p3vi_best_15_20.pth", 60, 80)
 
 
     def get_reward(self, action):
@@ -65,7 +65,7 @@ class HyREALA2C(RLAgent):
         if self.prev_speed is not None:
             #print("1",self.prev_speed, Config.max_speed)
             if action == 0 and self.prev_speed > (Config.max_speed + 3*0.2778):
-                print("2",self.prev_speed, Config.max_speed)
+                # print("2",self.prev_speed, Config.max_speed)
                 reward -= Config.too_fast
 
         if goal_dist < 3 or dist > 100:
