@@ -13,7 +13,8 @@ from benchmark.learner_example import Learner
 import timeit
 
 ## TODO PAGI: import configs here
-from config import Config, Config01, Config02, Config03,  IConfig01, IConfig02, IConfig03, IConfig04
+from config import (Config, Config01, Config02, Config03,
+                    IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06)
 from benchmark.scenarios.scenario import Scenario
 
 
@@ -47,8 +48,10 @@ class GIDASBenchmark(gym.Env):
         print("Load World")
         hud = HUD(Config.width, Config.height)
         with open("./assets/Town01_my.xodr") as odr:
-            self.world = self.client.generate_opendrive_world(odr.read())
-        # self.client.load_world('Town01_my')
+            self.world = self.client.generate_opendrive_world(odr.read(),
+                                                              carla.OpendriveGenerationParameters(
+                                                                  2.0, 50.0, 0.0, 200.0, False, True))
+        # self.client.load_world('Town01')
         self.first_sleep = True 
         wld = self.client.get_world()
         self.extract = False
@@ -125,6 +128,15 @@ class GIDASBenchmark(gym.Env):
                 self.val_episodes.extend(IConfig04().get_validation())
                 self.test_episodes.extend(IConfig04().get_test())
 
+            elif scenario == "05_int":
+                self.episodes.extend(IConfig05().get_training())
+                self.val_episodes.extend(IConfig05().get_validation())
+                self.test_episodes.extend(IConfig05().get_test())
+
+            elif scenario == "06_int":
+                self.episodes.extend(IConfig06().get_training())
+                self.val_episodes.extend(IConfig06().get_validation())
+                self.test_episodes.extend(IConfig06().get_test())
 
 
             else:
@@ -202,7 +214,7 @@ class GIDASBenchmark(gym.Env):
         self.planner_agent.update_scenario(scenario)
 
         self.world.world.tick()
-        print("Is none", self.world.semseg_sensor.array is None)
+        # print("Is none", self.world.semseg_sensor.array is None)
         i=0
         while self.world.semseg_sensor.array is None:
             self.world.world.tick()

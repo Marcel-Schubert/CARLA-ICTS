@@ -20,7 +20,7 @@ temp_check/agents/path_planner/hybridastar.py
 motivation_videos/
 path_predictor/*.pkl
 temp_check/path_predictor/get_prediction.py
-data/
+#data/
 ISDESPOT/isdespot-ped-pred/is-despot/problems/isdespotp_car/cmake-build-debug/
 /hyleap/smart-car-sim-master/is-despot/.deps/
 /hyleap/smart-car-sim-master/is-despot/problems/hybridVisual_car/.settings/
@@ -28,5 +28,5 @@ ISDESPOT/isdespot-ped-pred/is-despot/problems/isdespotp_car/cmake-build-debug/
 .vscode/
 cp_debug/
 *.png
-*.npy
+#*.npy
 *.mp4

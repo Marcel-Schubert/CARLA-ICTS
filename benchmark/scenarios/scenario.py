@@ -351,6 +351,41 @@ class Scenario:
 
         return "04_int", obstacles, end, start
 
+    def scenario05_int(self):
+        start = (92.5, 300, -90)
+        end = (92.5, 200, -90)
+        obstacles = []
+        walker_bp = self.world.get_blueprint_library().filter("walker.pedestrian.0001")[0]
+        if walker_bp.has_attribute('is_invincible'):
+            walker_bp.set_attribute('is_invincible', 'false')
+        walker_spawn_point = carla.Transform()
+        walker_spawn_point.location.x = 85
+        walker_spawn_point.location.y = 280
+        walker_spawn_point.location.z += 1.0
+        walker_spawn_point.rotation.yaw = 90.0
+        walker = [walker_bp, walker_spawn_point]
+        obstacles.append(walker)
+        return "05_int", obstacles, end, start
+
+
+    def scenario06_int(self):
+        start = (92.5, 300, -90)
+        end = (92.5, 200, -90)
+        obstacles = []
+
+        walker_bp = self.world.get_blueprint_library().filter("walker.pedestrian.0001")[0]
+        if walker_bp.has_attribute('is_invincible'):
+            walker_bp.set_attribute('is_invincible', 'false')
+        walker_spawn_point = carla.Transform()
+        walker_spawn_point.location.x = 85
+        walker_spawn_point.location.y = 300
+        walker_spawn_point.location.z += 1.0
+        walker_spawn_point.rotation.yaw = 270.0
+        walker = [walker_bp, walker_spawn_point]
+        obstacles.append(walker)
+
+        return "06_int", obstacles, end, start
+
 
 
     

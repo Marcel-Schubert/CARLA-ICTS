@@ -113,16 +113,22 @@ if __name__ == '__main__':
     Config.qw = args.qw
     if args.int:
         # TODO PAGI: ADD SCENARIO HERE
-        Config.scenarios = ["01_int","02_int","03_int", "04_int"]
+        # Config.scenarios = ["01_int","02_int","03_int", "04_int", "05_int"]
+        Config.scenarios = ["01_int", "02_int", "03_int"]
+        # Config.scenarios = ["04_int"]
+        # Config.scenarios = ["05_int"]
+        # Config.scenarios = ["06_int"]
+        # Config.scenarios = ["03_int"]
+        # Config.scenarios = ["02_non_int"]
     else:
-        Config.scenarios = ["01_non_int","02_non_int", "03_non_int"]
+        Config.scenarios = ["01_non_int", "02_non_int", "03_non_int"]
     print(Config.scenarios)
     # p = Process(target=run_server)
     # p.start()
-    t.sleep(20)
+    # t.sleep(20)
 
     #p2 = Process(target=run_test_server)
     #p2.start()
     #time.sleep(5)
     run(args)
-    subprocess.run(["kill -9 $(pidof CarlaUE4-Linux-Shipping)"], shell=True)
+    # subprocess.run(["kill -9 $(pidof CarlaUE4-Linux-Shipping)"], shell=True)

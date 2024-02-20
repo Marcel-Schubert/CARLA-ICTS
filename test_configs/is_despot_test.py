@@ -22,7 +22,7 @@ class TestConfig:
     ped_distance_range = [25, 25]
     # car_speed_range = [6, 9]
     # TODO PAGI: ADD SCENARIO HERE
-    scenarios = ['01_int','02_int', '03_int', "04_int", '01_non_int', '02_non_int', '03_non_int']#,"02_int", "03_int"  #, '02', '03', '04', '05', '06', '07', '08', '09']
+    scenarios = ['01_int','02_int', '03_int', "04_int", "05_int", '01_non_int', '02_non_int', '03_non_int']#,"02_int", "03_int"  #, '02', '03', '04', '05', '06', '07', '08', '09']
 
     # Simulator Parameters
     host = '127.0.0.1'

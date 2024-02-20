@@ -682,7 +682,7 @@ class RLAgent(Agent):
                 obstacles.append((int(walker_x), int(walker_y)))
                 self.pedestrian_observable = True
                 ## TODO PAGI: Add scenario here
-            elif self.scenario[0] in [1, 2, 4, 5, 6, 9, 10,"01_int", "02_int", "03_int", "04_int", "01_non_int", "02_non_int", "03_non_int"]:
+            elif self.scenario[0] in [1, 2, 4, 5, 6, 9, 10,"01_int", "02_int", "03_int", "04_int", "05_int", "01_non_int", "02_non_int", "03_non_int"]:
                 obstacles.append((int(walker_x), int(walker_y)))
                 self.pedestrian_observable = True
         if not walker_flag:

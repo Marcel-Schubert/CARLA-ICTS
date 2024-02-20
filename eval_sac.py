@@ -81,7 +81,7 @@ if __name__ == '__main__':
     if args.test:
         if args.test == "all":
             # TODO PAGI: ADD SCENARIO HERE
-            Config.scenarios = ['01_int','02_int','03_int', '04_int', '01_non_int','02_non_int','03_non_int']
+            Config.scenarios = ['01_int','02_int','03_int', '04_int', '05_int', '01_non_int','02_non_int','03_non_int']
         else:
             Config.scenarios = [args.test]
     p = Process(target=run_server)

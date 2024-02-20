@@ -109,7 +109,7 @@ if __name__ == '__main__':
     #if args.int:
     #    Config.scenarios = ["01_int","02_int","03_int"]
     #else:
-    #    Config.scenarios = ["01_non_int","02_non_int", "03_non_int"]
+    # Config.scenarios = ["01_non_int"]
     Config.scenarios = [args.test]
     print(Config.scenarios)
     # p = Process(target=run_server)

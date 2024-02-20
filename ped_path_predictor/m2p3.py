@@ -18,8 +18,8 @@ from ped_path_predictor.utils import *
 
 
 
-path_int = "path to interactive trajectories"
-path_non_int = "path to non-interactive trajectories"
+path_int = "./P3VI/data/int_new_prelim.npy"
+path_non_int = "./P3VI/data/non_int_new_prelim.npy"
 observed_frame_num = 60
 predicting_frame_num = 80
 batch_size = 256
