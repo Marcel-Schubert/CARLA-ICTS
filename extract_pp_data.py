@@ -113,8 +113,8 @@ if __name__ == '__main__':
     Config.qw = args.qw
     if args.int:
         # TODO PAGI: ADD SCENARIO HERE
-        # Config.scenarios = ["01_int","02_int","03_int", "04_int", "05_int"]
-        Config.scenarios = ["01_int", "02_int", "03_int"]
+        Config.scenarios = ["01_int", "02_int", "03_int", "04_int", "05_int", "06_int"]
+        # Config.scenarios = ["01_int", "02_int", "03_int"]
         # Config.scenarios = ["01_int"]
         # Config.scenarios = ["02_int"]
         # Config.scenarios = ["03_int"]

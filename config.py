@@ -148,15 +148,15 @@ class IConfig04(ScenarioConfig):
     def __init__(self):
         # self.ped_speed_range = [1.2,1.6]
         # self.spwaning_distances = [25,35]
-        self.ped_speed_range = [1.5, 1.5]  # 1.8
-        self.spawning_distances = [47.5, 47.5]  # 28
-        self.walking_distances = [10, 10]  # 5
+        self.ped_speed_range = [1.6, 2.0]  # 1.8
+        self.spawning_distances = [52.5, 60.0]  # 28
+        self.walking_distances = [5, 8]  # 5
 
-        self.walk_back_distances = [2, 2]
-        self.crossing_distanceX = [8, 8]
-        self.crossing_distanceY = [5, 5]
+        self.walk_back_distances = [0.5, 1.5]
+        self.crossing_distanceX = [6.0, 8.0]
+        self.crossing_distanceY = [3.0, 3.0]
 
-        self.looking_distance1 = [1.5, 1.5]  # 0.85
+        self.looking_distance1 = [1.0, 1.0]  # 0.85
         self.looking_distance2 = [1.0, 1.0]
 
         self.character = ["forcing", "yielding"]  # , "yielding"]
@@ -168,17 +168,19 @@ class IConfig04(ScenarioConfig):
         for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
             for spawning_distance in np.arange(self.spawning_distances[0], self.spawning_distances[1]+2.5,2.5):
                 for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+1, 1):
-                    for looking_distance1 in np.arange(self.looking_distance1[0], self.looking_distance1[1]+0.01, 0.01):
-                        for looking_distance2 in np.arange(self.looking_distance2[0], self.looking_distance2[1] + 0.01, 0.01):
-                            for walk_back_distance in np.arange(self.walk_back_distances[0], self.walk_back_distances[1]+1, 0.1):
+                    # for looking_distance1 in np.arange(self.looking_distance1[0], self.looking_distance1[1]+0.01, 0.01):
+                    #     print("ld1")
+                    #     print(looking_distance1)
+                    #     for looking_distance2 in np.arange(self.looking_distance2[0], self.looking_distance2[1] + 0.01, 0.01):
+                            for walk_back_distance in np.arange(self.walk_back_distances[0], self.walk_back_distances[1]+1, 0.5):
                                 for crossing_distanceX in np.arange(self.crossing_distanceX[0], self.crossing_distanceX[1]+1,1):
                                     for crossing_distanceY in np.arange(self.crossing_distanceY[0], self.crossing_distanceY[1] + 1, 1):
                                         for char in self.character:
                                             conf = ControllerConfig(speed)
                                             conf.spawning_distance = int(spawning_distance)
                                             conf.walking_distance = int(walking_distance)
-                                            conf.looking_distance1 = looking_distance1
-                                            conf.looking_distance2 = looking_distance2
+                                            conf.looking_distance1 = 1.5
+                                            conf.looking_distance2 = 1.0
                                             conf.walk_back_distance = walk_back_distance
                                             conf.crossing_distanceX = crossing_distanceX
                                             conf.crossing_distanceY = crossing_distanceY
@@ -193,14 +195,14 @@ class IConfig05(ScenarioConfig):
     def __init__(self):
         # self.ped_speed_range = [1.2,1.6]
         # self.spwaning_distances = [25,35]
-        self.ped_speed_range = [0.7, 1.0]  # 1.8
-        self.spwaning_distances = [47.5, 47.5]  # 28
+        self.ped_speed_range = [0.6, 0.9]  # 1.8
+        self.spwaning_distances = [52.5, 60.0]  # 28
 
-        self.walking_distances_X = [1, 1]
-        self.walking_distances_Y = [8, 8]
-        self.crossing_distances = [4, 4]
+        self.walking_distances_X = [1, 2]
+        self.walking_distances_Y = [1, 4]
+        self.crossing_distances = [3, 4]
 
-        self.uncertain_steps = [2, 2]
+        self.uncertain_steps = [2, 3]
 
         #
         # self.walking_distances = [5, 5]  # 5
@@ -215,7 +217,7 @@ class IConfig05(ScenarioConfig):
         scenes = []
         for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
             for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
-                for walking_distance_X in np.arange(self.walking_distances_X[0], self.walking_distances_X[1]+1,1):
+                for walking_distance_X in np.arange(self.walking_distances_X[0], self.walking_distances_X[1]+1,0.5):
                     for walking_distance_Y in np.arange(self.walking_distances_Y[0], self.walking_distances_Y[1]+1,1):
                         for crossing_distance in np.arange(self.crossing_distances[0], self.crossing_distances[1]+1,1):
                             for uncertain_steps in np.arange(self.uncertain_steps[0], self.uncertain_steps[1]+1,1):
@@ -235,11 +237,11 @@ class IConfig06(ScenarioConfig):
     def __init__(self):
         # self.ped_speed_range = [1.2,1.6]
         # self.spwaning_distances = [25,35]
-        self.ped_speed_range = [0.7, 1.7]  # 1.8
-        self.spwaning_distances = [47.5, 47.5]  # 28
-        self.crossing_distances = [5, 5]  # 3
-        self.car_avoid_X = [1, 1]
-        self.car_avoid_Y = [8, 8]
+        self.ped_speed_range = [0.7, 1.0]  # 1.8
+        self.spwaning_distances = [47.5, 55.0]  # 28
+        self.crossing_distances = [3, 5]  # 3
+        self.car_avoid_X = [0.4, 1]
+        self.car_avoid_Y = [7, 8.5]
 
         self.character = ["forcing", "yielding"]  # , "yielding"]
         super(IConfig06, self).__init__()
@@ -248,8 +250,8 @@ class IConfig06(ScenarioConfig):
         scenes = []
         for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
             for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
-                for car_avoid_X in np.arange(self.car_avoid_X[0], self.car_avoid_X[1]+1,1):
-                    for car_avoid_Y in np.arange(self.car_avoid_Y[0], self.car_avoid_Y[1]+1,1):
+                for car_avoid_X in np.arange(self.car_avoid_X[0], self.car_avoid_X[1]+0.2,0.2):
+                    for car_avoid_Y in np.arange(self.car_avoid_Y[0], self.car_avoid_Y[1]+0.5,0.5):
                         for crossing_distance in np.arange(self.crossing_distances[0], self.crossing_distances[1]+1,1):
                             for char in self.character:
                                 conf = ControllerConfig(speed)

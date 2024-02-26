@@ -72,7 +72,7 @@ class World(object):
         for _ in range(2):
             self.next_weather()
         self.random = True
-        self.debug = False
+        self.debug = True
 
     def get_car_blueprint(self):
         blueprint = random.choice(self.world.get_blueprint_library().filter(self._actor_filter))
@@ -1156,6 +1156,8 @@ class World(object):
         self.turn_head_second = TurnHeadRightBehind(self.walker, second_turn_p)
 
         reset_ld1_p = self.get_point((1 + looking_distance1, walking_distance + crossing_distanceY))
+
+
         self.resetLD1 = ResetPose(self.walker, reset_ld1_p)
 
 
@@ -1169,8 +1171,10 @@ class World(object):
 
         # self._draw_db_circle()
         if self.debug:
-            self.world.debug.draw_point(path_1[0] + 0.2 * vec, size=0.1, color=carla.Color(r=0, g=255, b=255),
-                                        life_time=0)
+            self.world.debug.draw_point(reset_ld1_p, color=carla.Color(r=0, g=255, b=255), life_time=0)
+            self.world.debug.draw_point(second_turn_p, color=carla.Color(r=0, g=255, b=255), life_time=0)
+            # self.world.debug.draw_point(path_1[0] + 0.2 * vec, size=0.1, color=carla.Color(r=0, g=255, b=255),
+            #                             life_time=0)
             self._draw_grid()
             self._draw_db()
         self.relaxer = Relaxer(self.walker, self.player, path_1[0] + 0.2 * vec)

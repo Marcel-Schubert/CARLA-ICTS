@@ -604,6 +604,8 @@ class UncertainSteps(object):
                 self.walker.set_bones(control)
                 self.walker.blend_pose(0.25)
                 self.walker.on_street = True
+                self.walker.icr = ICR.PLANNING_TO
+                self.walker.son = SON.FORCING
 
 
             # LOOK RIGHT
@@ -629,6 +631,8 @@ class UncertainSteps(object):
                 self.walker.set_bones(control)
                 self.walker.blend_pose(0.25)
                 self.walker.on_street = True
+                self.walker.icr = ICR.INTERESTED
+                self.walker.son = SON.YIELDING
 
             self.start_direction *= -1
             self.current_point += 1
