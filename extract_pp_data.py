@@ -115,6 +115,9 @@ if __name__ == '__main__':
         # TODO PAGI: ADD SCENARIO HERE
         # Config.scenarios = ["01_int","02_int","03_int", "04_int", "05_int"]
         Config.scenarios = ["01_int", "02_int", "03_int"]
+        # Config.scenarios = ["01_int"]
+        # Config.scenarios = ["02_int"]
+        # Config.scenarios = ["03_int"]
         # Config.scenarios = ["04_int"]
         # Config.scenarios = ["05_int"]
         # Config.scenarios = ["06_int"]
