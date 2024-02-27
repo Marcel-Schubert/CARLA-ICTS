@@ -72,7 +72,7 @@ class World(object):
         for _ in range(2):
             self.next_weather()
         self.random = True
-        self.debug = True
+        self.debug = False
 
     def get_car_blueprint(self):
         blueprint = random.choice(self.world.get_blueprint_library().filter(self._actor_filter))
@@ -723,7 +723,7 @@ class World(object):
 
         if self.scenario[0] == "06_int":
             status = self.path_controller_1.step()
-            print(self.walker.icr)
+            # print(self.walker.icr)
             # self.look_behind_right.step()
 
             # self.turn_head.step()
@@ -732,12 +732,10 @@ class World(object):
                 if self.choice == "Avoid":
                     self.reset.step()
                     self.path_controller_3.step()
-                    print("AM AVOIDING")
                 elif self.choice == "Continue":
                     self.raise_arm.step()
                     self.reset.step()
                     self.path_controller_2.step()
-                    print("AM CONTINUING")
                 else:
                     self.choice = "Continue"
                     self.walker.icr = ICR.GOING_TO
@@ -1220,9 +1218,9 @@ class World(object):
             points.append(
                 self.get_point((walking_distance_X + (uncert_p + 1) * delta, -walking_distance_Y)))
 
-        for x in points:
-            self.world.debug.draw_point(x, size=0.1, color=carla.Color(r=255, g=255, b=255),
-                                        life_time=0)
+        # for x in points:
+        #     self.world.debug.draw_point(x, size=0.1, color=carla.Color(r=255, g=255, b=255),
+        #                                 life_time=0)
 
         # Uncertain generator
         self.uncertain = UncertainSteps(self.walker, points, conf.char)
