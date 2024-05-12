@@ -322,6 +322,50 @@ class TurnHeadRightBehind(object):
         return "Done"
 
 
+class TurnHeadRightBehindNoICR(object):
+    def __init__(self, walker, start_pos=None):
+        self.walker = walker
+        self.start_pos = start_pos
+        self.done = False
+
+    def step(self):
+        if self.done:
+            return "Done"
+        if not self.start_pos is None:
+            direction = self.walker.get_location() - self.start_pos
+            direction_norm = math.sqrt(direction.x**2 + direction.y**2)
+            if direction_norm > 0.2:
+                return "Running"
+        #print("TurnHeadRightBehind")
+        bones = self.walker.get_bones()
+        new_pose = []
+        for bone in bones.bone_transforms:
+            if bone.name == "crl_hips__C":  # Added new
+                bone.relative.rotation.pitch += 70  # Added new
+                new_pose.append((bone.name, bone.relative))  # Added new
+            if bone.name == "crl_spine__C":  # Added new
+                bone.relative.rotation.roll += 70  # Added new
+                new_pose.append((bone.name, bone.relative))  # Added new
+            if bone.name == "crl_spine01__C":
+                bone.relative.rotation.pitch += 90  # Changed from 50 to 13
+                new_pose.append((bone.name, bone.relative))
+            if bone.name == "crl_neck__C":
+                bone.relative.rotation.pitch -= 90  # Changed from 30 to 10
+                new_pose.append((bone.name, bone.relative))
+            elif bone.name == "crl_Head__C":
+                bone.relative.rotation.pitch += 90  # Changed from 40 to 13
+                bone.relative.rotation.roll -= 20  # added new
+                bone.relative.rotation.yaw -= 0  # added new
+                new_pose.append((bone.name, bone.relative))
+            else:
+                new_pose.append((bone.name, bone.relative))
+        control = carla.WalkerBoneControlIn()
+        control.bone_transforms = new_pose
+        self.walker.set_bones(control)
+        self.walker.blend_pose(0.25)
+        self.done = True
+        return "Done"
+
 class TurnHeadRightWalk(object):
     def __init__(self, walker, start_pos=None, char="yielding"):
         self.walker = walker
@@ -520,7 +564,7 @@ class InternalStateSetter():
         if not self.start_pos is None:
             direction = self.walker.get_location() - self.start_pos
             direction_norm = math.sqrt(direction.x**2 + direction.y**2)
-            if direction_norm > 0.1:
+            if direction_norm > 0.2:
                 return "Running"
         self.walker.icr = self.icr
         self.walker.son = self.son

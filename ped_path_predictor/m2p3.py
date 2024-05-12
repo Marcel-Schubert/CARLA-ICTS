@@ -18,10 +18,10 @@ from ped_path_predictor.utils import *
 
 
 
-path_int = "./P3VI/data/int_new_prelim.npy"
-path_non_int = "./P3VI/data/non_int_new_prelim.npy"
-observed_frame_num = 60
-predicting_frame_num = 80
+path_int = './P3VI/data/int_new_prelim.npy'
+path_non_int = './P3VI/data/non_int_new_prelim.npy'
+observed_frame_num = 15
+predicting_frame_num = 20
 batch_size = 256
 train_samples = 1
 test_samples = 1

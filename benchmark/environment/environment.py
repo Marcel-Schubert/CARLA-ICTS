@@ -13,8 +13,8 @@ from benchmark.learner_example import Learner
 import timeit
 
 ## TODO PAGI: import configs here
-from config import (Config, Config01, Config02, Config03,
-                    IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06)
+from config import (Config, Config01, Config02, Config03, Config04, Config05, Config06,
+                    IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06, )
 from benchmark.scenarios.scenario import Scenario
 
 
@@ -51,16 +51,17 @@ class GIDASBenchmark(gym.Env):
             self.world = self.client.generate_opendrive_world(odr.read(),
                                                               carla.OpendriveGenerationParameters(
                                                                   2.0, 50.0, 0.0, 200.0, False, True))
-        # self.client.load_world('Town01')
+
+        # self.client.load_world('Town01_Opt', carla.MapLayer.Buildings)
         self.first_sleep = True 
         wld = self.client.get_world()
         self.extract = False
         self.prev_vel = 20
         print("Loaded ")
         #time.sleep(5)
-        wld.unload_map_layer(carla.MapLayer.StreetLights)
-        #wld.unload_map_layer(carla.MapLayer.Props)
-        wld.unload_map_layer(carla.MapLayer.Particles)
+        # wld.unload_map_layer(carla.MapLayer.StreetLights)
+        # wld.unload_map_layer(carla.MapLayer.Props)
+        # wld.unload_map_layer(carla.MapLayer.Particles)
         self.map = wld.get_map()
         settings = wld.get_settings()
         settings.fixed_delta_seconds = Config.simulation_step
@@ -120,6 +121,23 @@ class GIDASBenchmark(gym.Env):
                 self.episodes.extend(Config03().get_training())
                 self.val_episodes.extend(Config03().get_validation())
                 self.test_episodes.extend(Config03().get_test())
+
+            # TODO NON_INT
+            elif scenario == "04_non_int":
+                self.episodes.extend(Config04().get_training())
+                self.val_episodes.extend(Config04().get_validation())
+                self.test_episodes.extend(Config04().get_test())
+
+            elif scenario == "05_non_int":
+                self.episodes.extend(Config05().get_training())
+                self.val_episodes.extend(Config05().get_validation())
+                self.test_episodes.extend(Config05().get_test())
+
+            elif scenario == "06_non_int":
+                self.episodes.extend(Config06().get_training())
+                self.val_episodes.extend(Config06().get_validation())
+                self.test_episodes.extend(Config06().get_test())
+
 
             ## TODO PAGI: add other scenarios here
             ## ACTUAL EDIT00

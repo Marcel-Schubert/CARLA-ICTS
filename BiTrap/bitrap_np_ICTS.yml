@@ -1,0 +1,41 @@
+PROJECT: 'bitrap_np_icts'
+VISUALIZE: True
+CKPT_DIR: 'checkpoints/ICTS_checkpoints/goal_cvae_checkpoints/'
+OUT_DIR: 'outputs/ICTS_outputs/goal_cvae_outputs'
+DEVICE: 'cuda'
+METHOD: 'BiTraPNP'
+
+MODEL:
+  BEST_OF_MANY: True
+  K: 1
+  LATENT_DIST: 'gaussian'
+  LATENT_DIM: 32
+  PRED_LEN: 80
+  INPUT_LEN: 60
+  GLOBAL_INPUT_DIM: 2
+  DEC_OUTPUT_DIM: 2
+  DROPOUT: 0.25
+
+  WITH_FLOW: False
+  ENC_CONCAT_TYPE: 'average'
+  INPUT_EMBED_SIZE: 256
+  FLOW_EMBED_SIZE: 256
+  FLOW_HIDDEN_SIZE: 256
+  ENC_HIDDEN_SIZE: 256
+  DEC_INPUT_SIZE: 256
+  DEC_HIDDEN_SIZE: 256
+
+DATASET:
+  NAME: 'icts'
+#  ROOT: 'icts_data/icts_data/'
+#  TRAJECTORY_PATH: 'data/ETH_UCY_trajectron/trajectories/'
+
+DATALOADER:
+  NUM_WORKERS: 24
+SOLVER:
+  # TRAIN_MODULE: 'FOL'
+  MAX_EPOCH: 50
+  BATCH_SIZE: 512
+  LR: 0.0001
+  scheduler: 'exp'
+  GAMMA: 0.999

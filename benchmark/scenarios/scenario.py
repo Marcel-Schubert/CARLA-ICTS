@@ -440,3 +440,84 @@ class Scenario:
         obstacles.append(walker)
 
         return "03_non_int", obstacles, end, start
+
+
+    # CTS 3
+    def scenario04_non_int(self):
+        start = (2, 270, -90)
+        end = (2, 150, -90)
+        obstacles = []
+
+        walker_bp = self.world.get_blueprint_library().filter("walker.pedestrian.0001")[0]
+        if walker_bp.has_attribute('is_invincible'):
+            walker_bp.set_attribute('is_invincible', 'false')
+        walker_spawn_point = carla.Transform()
+        walker_spawn_point.location.x = -4.0
+        walker_spawn_point.location.y = 203
+        walker_spawn_point.location.z += 1.0
+        walker_spawn_point.rotation.yaw = 270.0
+        walker = [walker_bp, walker_spawn_point]
+        obstacles.append(walker)
+
+        car_spawn_point = carla.Transform()
+        car_spawn_point.location.x = -2
+        car_spawn_point.location.y = 206
+        car_spawn_point.location.z = 0.01
+        car_spawn_point.rotation.yaw = 90
+        car_bp = self.world.get_blueprint_library().filter("vehicle.audi.tt")
+        car = [random.choice(car_bp), car_spawn_point]
+        obstacles.append(car)
+
+        return "04_non_int", obstacles, end, start
+
+    # CTS 7
+    def scenario05_non_int(self):
+        start = (-2.0, 270, -90)
+        end = (-2.0, 150, -90)
+        obstacles = []
+
+        walker_bp = self.world.get_blueprint_library().filter("walker.pedestrian.0001")
+        walker_spawn_point = carla.Transform()
+        walker_spawn_point.location.x = 4.0
+        walker_spawn_point.location.y = 200
+        walker_spawn_point.location.z += 1.0
+        walker_spawn_point.rotation.yaw = 270.0
+        walker = [random.choice(walker_bp), walker_spawn_point]
+        obstacles.append(walker)
+
+        car_spawn_point = carla.Transform()
+        car_spawn_point.location.x = 2
+        car_spawn_point.location.y = 206
+        car_spawn_point.location.z = 0.01
+        car_spawn_point.rotation.yaw = 90
+        car_bp = self.world.get_blueprint_library().filter("vehicle.audi.tt")
+        car = [random.choice(car_bp), car_spawn_point]
+        obstacles.append(car)
+
+        return "05_non_int", obstacles, end, start
+
+    # CTS 8
+    def scenario06_non_int(self):
+        start = (-2.0, 270, -90)
+        end = (-2.0, 150, -90)
+        obstacles = []
+
+        walker_bp = self.world.get_blueprint_library().filter("walker.pedestrian.0001")
+        walker_spawn_point = carla.Transform()
+        walker_spawn_point.location.x = 10
+        walker_spawn_point.location.y = 200
+        walker_spawn_point.location.z += 1.0
+        walker_spawn_point.rotation.yaw = 270.0
+        walker = [random.choice(walker_bp), walker_spawn_point]
+        obstacles.append(walker)
+
+        car_spawn_point = carla.Transform()
+        car_spawn_point.location.x = 4.8
+        car_spawn_point.location.y = 206
+        car_spawn_point.location.z = 0.5
+        car_spawn_point.rotation.yaw = 90
+        car_bp = self.world.get_blueprint_library().filter("vehicle.audi.tt")
+        car = [random.choice(car_bp), car_spawn_point]
+        obstacles.append(car)
+
+        return "06_non_int", obstacles, end, start

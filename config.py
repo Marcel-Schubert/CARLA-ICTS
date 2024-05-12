@@ -153,7 +153,7 @@ class IConfig04(ScenarioConfig):
         self.walking_distances = [5, 8]  # 5
 
         self.walk_back_distances = [0.5, 1.5]
-        self.crossing_distanceX = [6.0, 8.0]
+        self.crossing_distanceX = [5.0, 7.0]
         self.crossing_distanceY = [3.0, 3.0]
 
         self.looking_distance1 = [1.0, 1.0]  # 0.85
@@ -244,6 +244,7 @@ class IConfig06(ScenarioConfig):
         self.car_avoid_Y = [7, 8.5]
 
         self.character = ["forcing", "yielding"]  # , "yielding"]
+        # self.character = ["yielding"]  # , "yielding"]
         super(IConfig06, self).__init__()
 
     def get_scenes(self):
@@ -265,22 +266,13 @@ class IConfig06(ScenarioConfig):
         return scenes
 
 
-
-
-
-
-
-
-
-
-
 class Config01(ScenarioConfig):
     def __init__(self):
         self.ped_speed_range = [1.6,2.0]
         self.spwaning_distances = [72.5,85]
         self.walking_distances = [8,12]
         self.looking_distances = [0.85,0.89]
-        self.op_reenter_distances = [12,12]
+        self.op_reenter_distances = [9.5,12]
         self.cross_walk_delta = []
         self.character = ["forcing"]
         #character = ["yielding", "forcing"]
@@ -301,7 +293,7 @@ class Config01(ScenarioConfig):
                                 conf.walking_distance = walking_distance
                                 conf.char = char
                                 scenes.append(("01_non_int", conf))
-        print(len(scenes))
+        print('Total scenes count (non-int-1): ', len(scenes))
         return scenes
 
 class Config02(ScenarioConfig):
@@ -310,7 +302,7 @@ class Config02(ScenarioConfig):
         self.spwaning_distances = [82.5,95] #5
         self.walking_distances = [8,12] #4
         self.looking_distances = [0.85,0.89] #6
-        self.op_reenter_distances = [12,12] #0
+        self.op_reenter_distances = [9.5,12] #0
         self.cross_walk_delta = []
         self.character = ["forcing"]
         #character = ["yielding", "forcing"]
@@ -331,6 +323,7 @@ class Config02(ScenarioConfig):
                                 conf.walking_distance = walking_distance
                                 conf.char = char
                                 scenes.append(("02_non_int", conf))
+        print('Total scenes count (non-int-2): ', len(scenes))
         return scenes
 
 class Config03(ScenarioConfig):
@@ -339,7 +332,7 @@ class Config03(ScenarioConfig):
         self.spwaning_distances = [47.5,55] #3
         self.walking_distances = [8,12] #4
         self.looking_distances = [0.70,0.77] #9
-        self.op_reenter_distances = [12,12] #0
+        self.op_reenter_distances = [9.5,12] #0
         self.cross_walk_delta = []
         self.character = ["forcing"]
         #character = ["yielding", "forcing"]
@@ -360,8 +353,111 @@ class Config03(ScenarioConfig):
                                 conf.walking_distance = walking_distance
                                 conf.char = char
                                 scenes.append(("03_non_int", conf))
-        print(len(scenes))
+        print('Total scenes count (non-int-3): ', len(scenes))
         return scenes
+
+
+#TODO NON_INT
+class Config04(ScenarioConfig):
+    def __init__(self):
+        self.ped_speed_range =  [1.6,2.0] #6
+        self.spwaning_distances = [1,8.5] #3
+        self.walking_distances = [-1,+1] #4
+        self.looking_distances = [0.70,0.77] #9
+        self.op_reenter_distances = [0,10] #0
+        self.cross_walk_delta = []
+        self.character = ["forcing"]
+        #character = ["yielding", "forcing"]
+        super(Config04,self).__init__()
+
+    def get_scenes(self):
+        scenes = []
+        for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
+            for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
+                for looking_distance in np.arange(self.looking_distances[0], self.looking_distances[1]+0.01,0.01):
+                    for op_reenter_distance in np.arange(self.op_reenter_distances[0], self.op_reenter_distances[1]+2.5,2.5):
+                        for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+1,2):
+                            for char in self.character:
+                                conf = ControllerConfig(speed)
+                                conf.spawning_distance = int(spawning_distance)
+                                conf.looking_distance = looking_distance
+                                conf.op_reenter_distance = op_reenter_distance
+                                conf.walking_distance = walking_distance
+                                conf.char = char
+                                scenes.append(("04_non_int", conf))
+        print('Total scenes count (non-int-4): ', len(scenes))
+        return scenes
+
+class Config05(ScenarioConfig):
+    def __init__(self):
+        self.ped_speed_range =  [1.6,2.0] #6
+        self.spwaning_distances = [1,8.5] #3
+        self.walking_distances = [-1,+1] #4
+        self.looking_distances = [0.70,0.77] #9
+        self.op_reenter_distances = [0,10] #0
+        self.cross_walk_delta = []
+        self.character = ["forcing"]
+        #character = ["yielding", "forcing"]
+        super(Config05,self).__init__()
+
+    def get_scenes(self):
+        scenes = []
+        for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
+            for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
+                for looking_distance in np.arange(self.looking_distances[0], self.looking_distances[1]+0.01,0.01):
+                    for op_reenter_distance in np.arange(self.op_reenter_distances[0], self.op_reenter_distances[1]+2.5,2.5):
+                        for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+1,2):
+                            for char in self.character:
+                                conf = ControllerConfig(speed)
+                                conf.spawning_distance = int(spawning_distance)
+                                conf.looking_distance = looking_distance
+                                conf.op_reenter_distance = op_reenter_distance
+                                conf.walking_distance = walking_distance
+                                conf.char = char
+                                scenes.append(("05_non_int", conf))
+        print('Total scenes count (non-int-5): ', len(scenes))
+        return scenes
+
+class Config06(ScenarioConfig):
+    def __init__(self):
+        self.ped_speed_range =  [1.2,1.5] #6
+        self.spwaning_distances = [1,8.5] #3
+        self.walking_distances = [-1,+1] #4
+        self.looking_distances = [0.70,0.77] #9
+        self.op_reenter_distances = [0,10] #0
+        self.cross_walk_delta = []
+        self.character = ["forcing"]
+        #character = ["yielding", "forcing"]
+        super(Config06,self).__init__()
+
+        # self.ped_speed_range =  [1.5,1.5] #6
+        # self.spwaning_distances = [1,1] #3
+        # self.walking_distances = [-1,-1] #4
+        # self.looking_distances = [0.70,0.77] #9
+        # self.op_reenter_distances = [10,10] #0
+        # self.cross_walk_delta = []
+        # self.character = ["forcing"]
+        # #character = ["yielding", "forcing"]
+        # super(Config06,self).__init__()
+
+    def get_scenes(self):
+        scenes = []
+        for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
+            for spawning_distance in np.arange(self.spwaning_distances[0], self.spwaning_distances[1]+2.5,2.5):
+                for looking_distance in np.arange(self.looking_distances[0], self.looking_distances[1]+0.01,0.01):
+                    for op_reenter_distance in np.arange(self.op_reenter_distances[0], self.op_reenter_distances[1]+2.5,2.5):
+                        for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+1,2):
+                            for char in self.character:
+                                conf = ControllerConfig(speed)
+                                conf.spawning_distance = int(spawning_distance)
+                                conf.looking_distance = looking_distance
+                                conf.op_reenter_distance = op_reenter_distance
+                                conf.walking_distance = walking_distance
+                                conf.char = char
+                                scenes.append(("06_non_int", conf))
+        print('Total scenes count (non-int-6): ', len(scenes))
+        return scenes
+
 
 class Config:
     PI = 3.14159

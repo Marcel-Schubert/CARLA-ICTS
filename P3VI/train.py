@@ -13,7 +13,7 @@ import torch.nn.functional as F
 import time
 
 
-path_int = "./data/int_new_prelim.npy"
+path_int = "data/OLD/int_new_prelim.npy"
 path_non_int = "./data/non_int_new_prelim.npy"
 
 observed_frame_num = 15

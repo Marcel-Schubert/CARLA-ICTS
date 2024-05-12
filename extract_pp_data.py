@@ -19,11 +19,13 @@ import time
 
 def run(args):
     if args.int:
-        #file = "./P3VI/data/01_int_prelim.npy"
-        file = "./P3VI/data/int_new_prelim.npy"
+        file = "./P3VI/data/innnnnt.npy"
+        # file = "./P3VI/data/int_new_prelim.npy"
+        # file = "./P3VI/data/int_new_prelim.npy"
     else:
         #file = "./P3VI/data/01_non_int_prelim.npy"
-        file = "./P3VI/data/non_int_new_prelim.npy"
+        # file = "./P3VI/data/non_int_new_prelim.npy"
+        file = "./P3VI/data/non_int_weeeeeeee.npy"
 
     print(file)
     # Create environments.
@@ -35,10 +37,12 @@ def run(args):
     env.extract = True
     data = []
     start_time = time.time()
-    if args.int:
-        iterations = 2 * len(env.episodes)
-    else:
-        iterations = len(env.episodes)
+    # if args.int:
+    #     iterations = 2 * len(env.episodes)
+    # else:
+    #     iterations = len(env.episodes)
+    iterations = len(env.episodes) + len(env.test_episodes) + len(env.val_episodes)
+
     print(iterations)
     for i in range(iterations):
         state = env.reset_extract()
@@ -52,8 +56,8 @@ def run(args):
         data.append(ep_data)
         if i % 10 == 0:
             print("Episode:", i)
-            print(time.time()-start_time)
-        if i % 50 == 0 :
+            print("time taken sofar: ", time.time()-start_time)
+        if i % 50 == 0 or i == iterations - 1:
             save_data = np.array(data)
             np.save(file, save_data, allow_pickle=True)
             print("Saved",i)
@@ -61,6 +65,7 @@ def run(args):
     with open(file,'rb') as f:
         arr = np.load(f, allow_pickle=True)
         print(arr[0])
+        print(len(arr))
     env.close()
 
 
@@ -113,18 +118,25 @@ if __name__ == '__main__':
     Config.qw = args.qw
     if args.int:
         # TODO PAGI: ADD SCENARIO HERE
-        Config.scenarios = ["01_int", "02_int", "03_int", "04_int", "05_int", "06_int"]
+        # Config.scenarios = ["01_int", "02_int", "03_int", "04_int", "05_int", "06_int"]
         # Config.scenarios = ["01_int", "02_int", "03_int"]
         # Config.scenarios = ["01_int"]
         # Config.scenarios = ["02_int"]
         # Config.scenarios = ["03_int"]
-        # Config.scenarios = ["04_int"]
+        Config.scenarios = ["04_int"]
         # Config.scenarios = ["05_int"]
         # Config.scenarios = ["06_int"]
+        # Config.scenarios = ["0000_int"]
         # Config.scenarios = ["03_int"]
         # Config.scenarios = ["02_non_int"]
     else:
-        Config.scenarios = ["01_non_int", "02_non_int", "03_non_int"]
+        # Config.scenarios = ["01_non_int", "02_non_int", "03_non_int"]
+        # Config.scenarios = ["01_non_int"]
+        # Config.scenarios = ["02_non_int"]
+        # Config.scenarios = ["03_non_int"]
+        # Config.scenarios = ["04_non_int"]
+        # Config.scenarios = ["05_non_int"]
+        Config.scenarios = ["06_non_int"]
     print(Config.scenarios)
     # p = Process(target=run_server)
     # p.start()
