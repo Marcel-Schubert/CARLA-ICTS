@@ -37,7 +37,7 @@ class BiTrapWrapper:
         self.optim = build_optimizer(cfg, self.model)
         self.observed_frame_num = observed_frame_num
         self.predicting_frame_num = predicting_frame_num
-        self.save_path = f'./_out/weights/bitrap_absolute_{epochs}e_{batch_size}b_{self.observed_frame_num}obs_{self.predicting_frame_num}pred_{datetime.datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth'
+        self.save_path = f'./_out/weights/bitrap_relative_{epochs}e_{batch_size}b_{self.observed_frame_num}obs_{self.predicting_frame_num}pred_{datetime.datetime.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth'
 
     def train(self):
         obs_train_int, pred_train_int = load_data(path_int, observed_frame_num, predicting_frame_num)

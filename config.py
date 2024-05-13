@@ -77,7 +77,7 @@ class IConfig01(ScenarioConfig):
                                         conf.op_reenter_distance = crossing_distance
                                         conf.char = char
                                         scenes.append(("01_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-1): ', len(scenes))
         return scenes
     
 
@@ -111,7 +111,7 @@ class IConfig02(ScenarioConfig):
                                     conf.op_reenter_distance = op_reenter_distance
                                     conf.char = char
                                     scenes.append(("02_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-2): ', len(scenes))
         return scenes
 
 
@@ -135,7 +135,7 @@ class IConfig03(ScenarioConfig):
                         conf.looking_distance = looking_distance
                         conf.char = char
                         scenes.append(("03_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-3): ', len(scenes))
         return scenes
 
 
@@ -186,7 +186,7 @@ class IConfig04(ScenarioConfig):
                                             conf.crossing_distanceY = crossing_distanceY
                                             conf.char = char
                                             scenes.append(("04_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-4): ', len(scenes))
         return scenes
 
 ## TODO PAGI: ADD SCENARIO CONFIG HERE
@@ -230,7 +230,7 @@ class IConfig05(ScenarioConfig):
                                     conf.uncertain_steps = uncertain_steps
                                     conf.char = char
                                     scenes.append(("05_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-5): ', len(scenes))
         return scenes
 
 class IConfig06(ScenarioConfig):
@@ -262,7 +262,7 @@ class IConfig06(ScenarioConfig):
                                 conf.car_avoid_Y = car_avoid_Y
                                 conf.char = char
                                 scenes.append(("06_int", conf))
-        print(len(scenes))
+        print('Total scenes count (int-6): ', len(scenes))
         return scenes
 
 

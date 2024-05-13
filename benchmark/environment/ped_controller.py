@@ -111,7 +111,7 @@ class LookBehindRight(object):
         control.bone_transforms = new_pose
         self.walker.set_bones(control)
         self.walker.blend_pose(0.25)
-        self.sone = True
+        self.done = True
         return "Done"
 
 class LookBehindLeftSpine(object):
@@ -687,7 +687,7 @@ class UncertainSteps(object):
                 return "Done"
             # self.done = True
             # return "Done"
-        return "Done"
+        return "Running"
 
 class ControllerConfig():
     def __init__(self, ped_speed=1.0, ped_distance=30.0):

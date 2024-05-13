@@ -13,8 +13,8 @@ import torch.nn.functional as F
 import time
 
 
-path_int = "data/OLD/int_new_prelim.npy"
-path_non_int = "./data/non_int_new_prelim.npy"
+path_int = "./P3VI/data/int_new_prelim.npy"
+path_non_int = "./P3VI/data/non_int_new_prelim.npy"
 
 observed_frame_num = 15
 predicting_frame_num = 20
@@ -258,7 +258,7 @@ class P3VIWrapper():
                     fde_loss /= test_batches
                     if eval_loss < best_eval and fde_loss < best_eval_fde:
                         #"{}_{}_".format(observed_frame_num, predicting_frame_num)
-                        save_path = '../_out/weights/new_{}_{}_all_seed_0_p3vi_{}_{}_{}.pth'.format(epochs, batch_size,"best",self.observed_frame_num, self.predicting_frame_num)
+                        save_path = './_out/weights/new_{}_{}_all_seed_0_p3vi_{}_{}_{}.pth'.format(epochs, batch_size,"best",self.observed_frame_num, self.predicting_frame_num)
                         torch.save(self.model.state_dict(), save_path)
                         best_eval = eval_loss
                         best_eval_fde = fde_loss

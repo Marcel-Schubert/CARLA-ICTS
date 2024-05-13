@@ -14,8 +14,8 @@ from datetime import datetime as dt
 path_int = "./P3VI/data/int_new_prelim.npy"
 path_non_int = "./P3VI/data/non_int_new_prelim.npy"
 
-observed_frame_num = 15
-predicting_frame_num = 20
+observed_frame_num = 60
+predicting_frame_num = 80
 batch_size = 512
 epochs = 1000
 
