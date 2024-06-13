@@ -19,13 +19,13 @@ import time
 
 def run(args):
     if args.int:
-        file = f"./P3VI/data/ICTS2_int_{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}.npy"
-        # file = "./P3VI/data/int_new_prelim.npy"
+        # file = f"./P3VI/data/ICTS2_int_{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}.npy"
+        file = f"./P3VI/data/single/{Config.scenarios}.npy"
         # file = "./P3VI/data/int_new_prelim.npy"
     else:
         #file = "./P3VI/data/01_non_int_prelim.npy"
-        # file = "./P3VI/data/non_int_new_prelim.npy"
-        file = f"./P3VI/data/ICTS2_non_int_{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}.npy"
+        file = f"./P3VI/data/single/{Config.scenarios}.npy"
+        # file = f"./P3VI/data/ICTS2_non_int_{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}.npy"
 
 
     print(file)
@@ -120,12 +120,14 @@ if __name__ == '__main__':
     if args.int:
         # TODO PAGI: ADD SCENARIO HERE
         # Config.scenarios = ["01_int", "02_int", "03_int", "04_int", "05_int", "06_int"]
-        Config.scenarios = ["01_int",
-                            "02_int",
-                            "03_int",
-                            "04_int",
-                            "05_int",
-                            "06_int"]
+        Config.scenarios = [
+            # "01_int",
+            # "02_int",
+            # "03_int",
+            # "04_int",
+            "05_int",
+            # "06_int"
+        ]
         # Config.scenarios = ["01_int"]
         # Config.scenarios = ["02_int"]
         # Config.scenarios = ["03_int"]
@@ -136,12 +138,14 @@ if __name__ == '__main__':
         # Config.scenarios = ["03_int"]
         # Config.scenarios = ["02_non_int"]
     else:
-        Config.scenarios = ["01_non_int",
-                            "02_non_int",
-                            "03_non_int",
-                            "04_non_int",
-                            "05_non_int",
-                            "06_non_int"]
+        Config.scenarios = [
+            # "01_non_int",
+            # "02_non_int",
+            # "03_non_int",
+            # "04_non_int",
+            # "05_non_int",
+            # "06_non_int"
+        ]
         # Config.scenarios = ["01_non_int"]
         # Config.scenarios = ["02_non_int"]
         # Config.scenarios = ["03_non_int"]

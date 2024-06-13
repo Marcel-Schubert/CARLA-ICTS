@@ -1,44 +1,57 @@
+import os
 import time
 import sys
+
+
+
 sys.path.append("/workspace/data/CARLA-ICTS")
 
+from NotificationService.notification_service import telegram_bot_sendtext
+from CI3PP.ATT_SH.model import CI3P_ATT_SH
 import numpy as np
 import torch
 import torch.nn.functional as F
 
-from CI3PP.model import CI3PP
 from P3VI.utils import load_data
 from sklearn.model_selection import train_test_split
 from datetime import datetime as dt
 
-path_int = "./P3VI/data/int_new_prelim.npy"
-path_non_int = "./P3VI/data/non_int_new_prelim.npy"
+path_int = "./P3VI/data/ICTS2_int.npy"
+path_non_int = "./P3VI/data/ICTS2_non_int.npy"
 
 observed_frame_num = 60
 predicting_frame_num = 80
-batch_size = 512
-epochs = 1000
+batch_size = 1024
+epochs = 2000
+lr = 0.00005
 
 
-class CI3PPWrapper:
+class CI3PP_ATT_SH_Wrapper:
     def __init__(self, model_path=None,
                  n_obs=observed_frame_num,
                  n_pred=predicting_frame_num):
-        self.model = CI3PP(observed_frame_num, predicting_frame_num).cuda()
+
+        self.n_obs = n_obs
+        self.n_pred = n_pred
+
+        self.model = CI3P_ATT_SH(n_obs, n_pred).cuda()
 
         if model_path:
             self.model.load_state_dict(torch.load(model_path))
 
-        self.optim = torch.optim.Adam(lr=0.00005, params=self.model.parameters())
-        self.n_obs = n_obs
-        self.n_pred = n_pred
+        self.optim = torch.optim.Adam(lr=lr, params=self.model.parameters())
 
-        self.save_path = (f'./_out/weights/CI3PP_'
+
+        export_dir = './_out/weights/CI3P_ATT_SH/'
+        self.save_path = (f'{export_dir}/CI3P_ATT_SH'
+                          f'{observed_frame_num}o_'
+                          f'{predicting_frame_num}p_'
                           f'{epochs}e_'
                           f'{batch_size}b_'
-                          f'{self.n_obs}obs_'
-                          f'{self.n_pred}pred_'
+                          f'{lr}lr_'
                           f'{dt.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth')
+        if not os.path.exists(export_dir):
+            os.makedirs(export_dir)
 
         print(f"Save path will be: {self.save_path}")
 
@@ -81,8 +94,14 @@ class CI3PPWrapper:
         best_eval = np.Inf
         best_eval_fde = np.Inf
 
+        last_best_epoch = 0
+        telegram_bot_sendtext("CI3P ATT SH training started")
+
         # epoch loop:
         for epoch in range(epochs):
+
+            did_epoch_better = False
+
             n_batches = int(np.floor(input_train.shape[1] / batch_size))
             print(f"Batches: {n_batches}")
             ckp_loss = 0
@@ -136,11 +155,19 @@ class CI3PPWrapper:
                     eval_loss /= test_batches * self.n_pred
                     fde_loss /= test_batches
                     if eval_loss < best_eval and fde_loss < best_eval_fde:
+                        did_epoch_better = True
                         print(f"Saving Model with loss:{eval_loss, fde_loss}")
                         torch.save(self.model.state_dict(), self.save_path)
                         best_eval = eval_loss
                         best_eval_fde = fde_loss
                     count += 1
+            if did_epoch_better:
+                print(f"Epoch {epoch} was better")
+                last_best_epoch = epoch
+            if epoch - last_best_epoch > 10:
+                telegram_bot_sendtext(f"CI3P ATT SH training stopped, no improvement in 10 epochs at epoch {epoch}\nEvalLoss: {best_eval}\nFDELoss: {best_eval_fde}")
+                print(f"Stopping training, no improvement in 10 epochs")
+                break
     def test(self, path=None):
         input_test, output_test = load_data(path, self.n_obs, self.n_pred)
         input_test = np.array(input_test[:, :, :], dtype=np.float32)
@@ -183,5 +210,5 @@ class CI3PPWrapper:
                 (y_pred[-1, :, :] - y_test[-1, :, :])).sum(1).sqrt().sum().item()
 
 if __name__ == '__main__':
-    model = CI3PPWrapper()
+    model = CI3PP_ATT_SH_Wrapper()
     model.train()

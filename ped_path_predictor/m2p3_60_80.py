@@ -4,9 +4,11 @@ Time: 22.01.22 10:57
 """
 import time
 import sys
+import os
+sys.path.append("/workspace/data/CARLA-ICTS")
+import signal
 
 from P3VI.utils import load_data
-sys.path.append("your path to code")
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -21,13 +23,14 @@ from datetime import datetime as dt
 
 path_int = "./P3VI/data/ICTS2_int.npy"
 path_non_int = "./P3VI/data/ICTS2_non_int.npy"
-observed_frame_num = 15
-predicting_frame_num = 20
-batch_size = 512
+observed_frame_num = 60
+predicting_frame_num = 80
+batch_size = 1024
 train_samples = 1
 test_samples = 1
-epochs = 250
+epochs = 750
 latent_dim = 24
+lr = 0.0001
 
 
 class PathPredictor:
@@ -35,7 +38,7 @@ class PathPredictor:
         self.model = M2P3(latent_dim=latent_dim,predict_frames=predicting_frame_num).cuda()
         if model_path:
             self.model.load_state_dict(torch.load(model_path))
-        self.optim = torch.optim.Adam(lr=0.0001, params=self.model.parameters())
+        self.optim = torch.optim.Adam(lr=lr, params=self.model.parameters())
         self.observed_frame_num = observed_frame_num
         self.predicting_frame_num = predicting_frame_num
         log_dir = "_out/m2p3/"+"new_{}_{}_all_seed_0_{}_{}_".format(epochs, batch_size,self.observed_frame_num, self.predicting_frame_num)+str(time.time())+"/summary"
@@ -46,10 +49,11 @@ class PathPredictor:
                           f'{predicting_frame_num}p_'
                           f'{epochs}e_'
                           f'{batch_size}b_'
+                          f'{lr}lr_'
                           f'{dt.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth')
         if not os.path.exists(export_dir):
             os.makedirs(export_dir)
-
+        print(f"Save path will be: {self.save_path}")
         if model_path is None:
             self.writer = SummaryWriter(log_dir=log_dir)
 
@@ -131,8 +135,8 @@ class PathPredictor:
 
         obs_train = np.concatenate((obs_train_int, obs_train_non_int))
         pred_train = np.concatenate((pred_train_int, pred_train_non_int))
-        print(obs_train.shape)
-        print(pred_train.shape)
+        # print(obs_train.shape)
+        # print(pred_train.shape)
         input_train = np.array(obs_train[:, :, 0:2], dtype=np.float32)
         output_train = np.array(pred_train[:, :, :], dtype=np.float32)
         input_train, input_test, output_train, output_test = train_test_split(input_train, output_train, test_size=0.15,random_state=0)
@@ -143,7 +147,7 @@ class PathPredictor:
         i_t = np.expand_dims(i_t, axis=1)
         i_t = np.repeat(i_t, self.predicting_frame_num, axis=1)
         output_train = output_train - i_t
-        print(np.mean(output_train))
+        # print(np.mean(output_train))
         i_t = input_test[:, self.observed_frame_num - 1, :]
         i_t = np.expand_dims(i_t, axis=1)
         i_t = np.repeat(i_t, self.predicting_frame_num, axis=1)
@@ -153,8 +157,8 @@ class PathPredictor:
         output_train = np.transpose(output_train, (1, 0, 2))
         input_test = np.transpose(input_test, (1, 0, 2))
         output_test = np.transpose(output_test, (1, 0, 2))
-        print("Input train shape =", input_train.shape)
-        print("Output train shape =", output_train.shape)
+        # print("Input train shape =", input_train.shape)
+        # print("Output train shape =", output_train.shape)
 
         count = 0
         best_eval = np.Inf
@@ -213,6 +217,7 @@ class PathPredictor:
                     if eval_loss < best_eval and fde_loss < best_eval_fde:
                         # save_path = './_out/weights/new_{}_{}_all_seed_0_m2p3_{}_{}_{}.pth'.format(epochs, batch_size,"best",self.observed_frame_num, self.predicting_frame_num)
                         #print(save_path)
+                        print(f"Saving Model with loss:{eval_loss, fde_loss}")
                         torch.save(self.model.state_dict(), self.save_path)
                         best_eval = eval_loss
                         best_eval_fde = fde_loss
@@ -251,31 +256,6 @@ class PathPredictor:
 
 
 if __name__ == "__main__":
-    array = np.array([[3.9918034076690674, 233.06858825683594],
-                      [3.9065144062042236, 233.1765899658203],
-                      [3.7870030403137207, 233.24139404296875],
-                      [3.6476268768310547, 233.28028869628906],
-                      [3.4928321838378906, 233.3036346435547],
-                      [3.3240487575531006, 233.317626953125],
-                      [3.1442394256591797, 233.32591247558594],
-                      [2.964298963546753, 233.33053588867188],
-                      [2.7843174934387207, 233.33311462402344],
-                      [2.604323387145996, 233.33456420898438],
-                      [2.4243252277374268, 233.3353729248047],
-                      [2.244325876235962, 233.3358154296875],
-                      [2.064326047897339, 233.33607482910156],
-                      [1.8843259811401367, 233.33621215820312],
-                      [1.7043260335922241, 233.33628845214844],], dtype=np.float32)
-
-
     p = PathPredictor()
-    time_taken = 0
-    runs = 1
-    for _ in range(runs):
-        t0 = time.time()
-        res = p.get_single_prediction(array)
-        time_taken += (time.time() - t0) * 1000
-    print("Time taken: {:.4f}ms".format(time_taken / runs))
-    for node in res:
-        print(node)
-        print(round(node[0]), round(node[1]))
+    p.train()
+    os.kill(os.getppid(), signal.SIGHUP)

@@ -1,44 +1,53 @@
+import os
 import time
 import sys
-sys.path.append("/workspace/data/CARLA-ICTS")
 
+
+
+sys.path.append("/workspace/data/CARLA-ICTS")
+from CIPT.model import CIPT
 import numpy as np
 import torch
 import torch.nn.functional as F
 
-from CI3PP.model import CI3PP
 from P3VI.utils import load_data
 from sklearn.model_selection import train_test_split
 from datetime import datetime as dt
 
-path_int = "./P3VI/data/int_new_prelim.npy"
-path_non_int = "./P3VI/data/non_int_new_prelim.npy"
+path_int = "./P3VI/data/ICTS2_int.npy"
+path_non_int = "./P3VI/data/ICTS2_non_int.npy"
 
-observed_frame_num = 15
-predicting_frame_num = 20
-batch_size = 512
-epochs = 1000
+observed_frame_num = 60
+predicting_frame_num = 80
+batch_size = 4096
+epochs = 2000
 
 
-class CI3PPWrapper:
+class CIPTWrapper:
     def __init__(self, model_path=None,
                  n_obs=observed_frame_num,
                  n_pred=predicting_frame_num):
-        self.model = CI3PP(observed_frame_num, predicting_frame_num).cuda()
+
+        self.n_obs = n_obs
+        self.n_pred = n_pred
+
+        self.model = CIPT(n_obs, n_pred).cuda()
 
         if model_path:
             self.model.load_state_dict(torch.load(model_path))
 
         self.optim = torch.optim.Adam(lr=0.00005, params=self.model.parameters())
-        self.n_obs = n_obs
-        self.n_pred = n_pred
 
-        self.save_path = (f'./_out/weights/CI3PP_'
+
+        export_dir = './_out/weights/CIPT'
+        self.save_path = (f'{export_dir}/CIPT'
+                          f'{observed_frame_num}o_'
+                          f'{predicting_frame_num}p_'
                           f'{epochs}e_'
                           f'{batch_size}b_'
-                          f'{self.n_obs}obs_'
-                          f'{self.n_pred}pred_'
                           f'{dt.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth')
+        if not os.path.exists(export_dir):
+            os.makedirs(export_dir)
 
         print(f"Save path will be: {self.save_path}")
 
@@ -183,5 +192,5 @@ class CI3PPWrapper:
                 (y_pred[-1, :, :] - y_test[-1, :, :])).sum(1).sqrt().sum().item()
 
 if __name__ == '__main__':
-    model = CI3PPWrapper()
+    model = CIPTWrapper()
     model.train()

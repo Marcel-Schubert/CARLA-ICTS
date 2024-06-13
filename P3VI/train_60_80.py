@@ -18,13 +18,14 @@ from datetime import datetime as dt
 path_int = "./P3VI/data/ICTS2_int.npy"
 path_non_int = "./P3VI/data/ICTS2_non_int.npy"
 
-observed_frame_num = 15
-predicting_frame_num = 20
-batch_size = 512
+observed_frame_num = 60
+predicting_frame_num = 80
+batch_size = 1024
 train_samples = 1
 test_samples = 1
-epochs = 250
+epochs = 750
 latent_dim = 24
+lr = 0.00005
 
 def normalize(trajectories, shift_x=None, shift_y=None, scale=None):
     """
@@ -72,7 +73,7 @@ class P3VIWrapper():
             self.model = P3VI(observed_frame_num, predicting_frame_num).cuda()
             if model_path:
                 self.model.load_state_dict(torch.load(model_path))
-            self.optim = torch.optim.Adam(lr=0.00005, params=self.model.parameters())
+            self.optim = torch.optim.Adam(lr=lr, params=self.model.parameters())
             log_dir = "../_out/p3vi/"+ "new_{}_{}_all_seed_0_{}_{}_".format(epochs, batch_size, observed_frame_num, predicting_frame_num)+str(time.time())+"/summary"
 
             export_dir = './_out/weights/P3VI'
@@ -81,6 +82,7 @@ class P3VIWrapper():
                               f'{predicting_frame_num}p_'
                               f'{epochs}e_'
                               f'{batch_size}b_'
+                              f'{lr}lr_'
                               f'{dt.today().strftime("%Y-%m-%d_%H-%M-%S")}.pth')
             if not os.path.exists(export_dir):
                 os.makedirs(export_dir)
@@ -89,6 +91,8 @@ class P3VIWrapper():
                 self.writer = SummaryWriter(log_dir=log_dir)
             self.observed_frame_num = observed_frame_num
             self.predicting_frame_num = predicting_frame_num
+
+            print(f"Save path will be: {self.save_path}")
 
     def test(self, test=False, path=None):
         if not test:
@@ -99,8 +103,8 @@ class P3VIWrapper():
             pred_train = np.concatenate((pred_train_int, pred_train_non_int))
 
             #print("Started loading")
-            print(obs_train.shape)
-            print(pred_train.shape)
+            # print(obs_train.shape)
+            # print(pred_train.shape)
 
             input_train = np.array(obs_train[:, :, :], dtype=np.float32)
             output_train = np.array(pred_train[:, :, :], dtype=np.float32)
@@ -119,7 +123,7 @@ class P3VIWrapper():
             i_t = np.expand_dims(i_t, axis=1)
             i_t = np.repeat(i_t, self.predicting_frame_num, axis=1)
             output_train = output_train - i_t
-            print(np.mean(output_train[:,:,0:2]))
+            # print(np.mean(output_train[:,:,0:2]))
 
             i_t = input_test[:, self.observed_frame_num - 1, 0:2]
             i_t = np.expand_dims(i_t, axis=1)
@@ -130,8 +134,8 @@ class P3VIWrapper():
             output_train = np.transpose(output_train, (1, 0, 2))
             input_test = np.transpose(input_test, (1, 0, 2))
             output_test = np.transpose(output_test, (1, 0, 2))
-            print("Input train shape =", input_train.shape)
-            print("Output train shape =", output_train.shape)
+            # print("Input train shape =", input_train.shape)
+            # print("Output train shape =", output_train.shape)
         else:
             input_test, output_test = load_data(path, self.observed_frame_num, self.predicting_frame_num)
             input_test = np.array(input_test[:, :, :], dtype=np.float32)
@@ -276,6 +280,7 @@ class P3VIWrapper():
                     if eval_loss < best_eval and fde_loss < best_eval_fde:
                         #"{}_{}_".format(observed_frame_num, predicting_frame_num)
                         # save_path = './_out/weights/new_{}_{}_all_seed_0_p3vi_{}_{}_{}.pth'.format(epochs, batch_size,"best",self.observed_frame_num, self.predicting_frame_num)
+                        print(f"Saving Model with loss:{eval_loss, fde_loss}")
                         torch.save(self.model.state_dict(), self.save_path)
                         best_eval = eval_loss
                         best_eval_fde = fde_loss

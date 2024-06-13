@@ -36,6 +36,6 @@ SOLVER:
   # TRAIN_MODULE: 'FOL'
   MAX_EPOCH: 50
   BATCH_SIZE: 512
-  LR: 0.0001
+  LR: 0.00005
   scheduler: 'exp'
   GAMMA: 0.999
