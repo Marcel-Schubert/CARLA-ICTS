@@ -200,7 +200,7 @@ class IConfig05(ScenarioConfig):
 
         self.walking_distances_X = [1, 2]
         self.walking_distances_Y = [1, 4]
-        self.crossing_distances = [3, 4]
+        self.crossing_distances = [2, 3]
 
         self.uncertain_steps = [2, 3]
 

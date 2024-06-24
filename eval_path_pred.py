@@ -1,5 +1,8 @@
 from CI3PP.ATT.model import CI3P_ATT
 from CI3PP.ATT.train import CI3PP_ATT_Wrapper
+from CI3PP.ATT_BH.train import CI3PP_ATT_BH_Wrapper
+from w_and_b.ATT_BH.train import CI3PP_ATT_BH_Wrapper as CI3PP_ATT_BH_Wrapper_WANDB
+from CI3PP.ATT_SH.train import CI3PP_ATT_SH_Wrapper
 from CI3PP.CVAE.train import CI3PP_CVAE_WRAPPER
 from CI3PP.CVAE_ATT.train import CI3PP_CVAE_ATT_WRAPPER
 from P3VI.train import P3VIWrapper
@@ -33,6 +36,12 @@ p3vi_fde = []
 ci3pp_ATT_mse = []
 ci3pp_ATT_fde = []
 
+ci3pp_ATT_SH_mse = []
+ci3pp_ATT_SH_fde = []
+
+ci3pp_ATT_BH_mse = []
+ci3pp_ATT_BH_fde = []
+
 ci3pp_CVAE_mse = []
 ci3pp_CVAE_fde = []
 
@@ -54,7 +63,7 @@ for p in data_paths:
 
     print("OG M2P3")
     m2p3 = PathPredictor(
-        "./_out/weights/M2P3/M2P360o_80p_750e_1024b_0.0001lr_2024-06-09_14-36-23.pth", 60, 80)
+        "_out/weights/M2P3/M2P360o_80p_2000e_1024b_0.0001lr_2024-06-14_17-12-20.pth", 60, 80)
     mse, fde = m2p3.test(True, p)
     m2p3_mse.append(mse)
     m2p3_fde.append(fde)
@@ -62,31 +71,67 @@ for p in data_paths:
 
     print("OG CI3P/P3VI")
     p3vi = P3VIWrapper(
-        "./_out/weights/P3VI/P3VI_60o_80p_750e_1024b_5e-05lr_2024-06-09_14-36-36.pth", 60, 80)
+        "_out/weights/P3VI/P3VI_60o_80p_2000e_1024b_5e-05lr_2024-06-14_17-12-10.pth", 60, 80)
     mse, fde = p3vi.test(True, p)
     p3vi_mse.append(mse)
     p3vi_fde.append(fde)
     print(20 * "#", "\n")
 
+
+    # EARLY STOPPED AT 111
     print("CI3PP ATT")
     ci3P_att = CI3PP_ATT_Wrapper(
-        "./_out/weights/CI3P_ATT/CI3P_ATT60o_80p_750e_1024b_5e-05lr_2024-06-09_14-38-06.pth", 60, 80)
+        "_out/weights/CI3P_ATT/CI3P_ATT60o_80p_2000e_1024b_5e-05lr_2024-06-13_18-25-34.pth", 60, 80)
     mse, fde = ci3P_att.test(p)
     ci3pp_ATT_mse.append(mse)
     ci3pp_ATT_fde.append(fde)
     print(20 * "#", "\n")
 
+
+# EARLY STOPPED AT 105
+    print("CI3PP ATT SH")
+    ci3P_att = CI3PP_ATT_SH_Wrapper(
+        "_out/weights/CI3P_ATT_SH/CI3P_ATT_SH60o_80p_2000e_1024b_5e-05lr_2024-06-13_22-06-43.pth", 60, 80)
+    mse, fde = ci3P_att.test(p)
+    ci3pp_ATT_SH_mse.append(mse)
+    ci3pp_ATT_SH_fde.append(fde)
+    print(20 * "#", "\n")
+
+# EARLY STOPPED AT 182
+    print("CI3PP ATT BH")
+    ci3P_att = CI3PP_ATT_BH_Wrapper(
+        "_out/weights/CI3P_ATT_BH/CI3P_ATT_BH60o_80p_2000e_1024b_5e-05lr_2024-06-13_18-25-46.pth", 60, 80)
+    mse, fde = ci3P_att.test(p)
+    ci3pp_ATT_BH_mse.append(mse)
+    ci3pp_ATT_BH_fde.append(fde)
+    print(20 * "#", "\n")
+
+    # BANGER ATT BH
+    print("CI3PP ATT BH BANGER")
+    ci3P_att_BANGER = CI3PP_ATT_BH_Wrapper_WANDB(
+        '_out/weights/CI3P_ATT_BH/CI3P_ATT_BH60o_80p_2000e_1024b_9.472028094027968e-05lr_256ed_16nh_2024-06-14_18-59-22.pth',
+        60, 80, 256, 16)
+    mse, fde = ci3P_att_BANGER.test(p)
+    print(mse, fde)
+    print(20 * "#", "\n")
+
+
+
+
+    # EARLY STOPPED AT 195
     print("CI3PP CVAE")
     ci3P_cvae = CI3PP_CVAE_WRAPPER(
-        "./_out/weights/CI3P_CVAE/CI3P_CVAE60o_80p_750e_1024b_5e-05lr_2024-06-09_14-38-10.pth", 60, 80)
+        "_out/weights/CI3P_CVAE/CI3P_CVAE60o_80p_2000e_1024b_5e-05lr_2024-06-13_18-25-09.pth", 60, 80)
     mse, fde = ci3P_cvae.test(True, p)
     ci3pp_CVAE_mse.append(mse)
     ci3pp_CVAE_fde.append(fde)
     print(20 * "#", "\n")
 
+
+    # EARLY STOPPED AT 173
     print("CI3PP CVAE ATT")
     ci3P_cvae_att = CI3PP_CVAE_ATT_WRAPPER(
-        "./_out/weights/CI3PP_CVAE_ATT/BROKEN_ATT_CI3PP_CVAE_ATT60o_80p_750e_1024b_5e-05lr_2024-06-09_14-38-16.pth", 60, 80)
+        "_out/weights/CI3PP_CVAE_ATT/CI3PP_CVAE_ATT60o_80p_2000e_1024b_5e-05lr_2024-06-13_18-25-34.pth", 60, 80)
     mse, fde = ci3P_cvae_att.test(True, p)
     ci3pp_CVAE_ATT_mse.append(mse)
     ci3pp_CVAE_ATT_fde.append(fde)
@@ -374,6 +419,8 @@ rows = ["Model"]
 m2p3_row = ["M2P3"]
 p3vi_row = ["P3VI"]
 ci3pp_ATT_row = ["CI3PP_ATT"]
+ci3pp_ATT_SH_row = ["CI3PP_ATT_SH"]
+ci3pp_ATT_BH_row = ["CI3PP_ATT_BH"]
 ci3pp_CVAE_row = ["CI3PP_CVAE"]
 ci3pp_CVAE_ATT_row = ["CI3PP_CVAE_ATT"]
 
@@ -382,6 +429,8 @@ for i in range(len(data_paths)):
     m2p3_row.append(f"{m2p3_mse[i]}/{m2p3_fde[i]}")
     p3vi_row.append(f"{p3vi_mse[i]}/{p3vi_fde[i]}")
     ci3pp_ATT_row.append(f"{ci3pp_ATT_mse[i]}/{ci3pp_ATT_fde[i]}")
+    ci3pp_ATT_SH_row.append(f"{ci3pp_ATT_SH_mse[i]}/{ci3pp_ATT_SH_fde[i]}")
+    ci3pp_ATT_BH_row.append(f"{ci3pp_ATT_BH_mse[i]}/{ci3pp_ATT_BH_fde[i]}")
     ci3pp_CVAE_row.append(f"{ci3pp_CVAE_mse[i]}/{ci3pp_CVAE_fde[i]}")
     ci3pp_CVAE_ATT_row.append(f"{ci3pp_CVAE_ATT_mse[i]}/{ci3pp_CVAE_ATT_fde[i]}")
 
@@ -389,6 +438,8 @@ t = PrettyTable(rows)
 t.add_row(m2p3_row)
 t.add_row(p3vi_row)
 t.add_row(ci3pp_ATT_row)
+t.add_row(ci3pp_ATT_SH_row)
+t.add_row(ci3pp_ATT_BH_row)
 t.add_row(ci3pp_CVAE_row)
 t.add_row(ci3pp_CVAE_ATT_row)
 

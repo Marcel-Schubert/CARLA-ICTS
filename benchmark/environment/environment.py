@@ -329,6 +329,15 @@ class GIDASBenchmark(gym.Env):
         x,y,icr,son = self.world.get_walker_state()
 
         return x,y,icr,son
+
+    def extract_car_pos(self):
+        self.world.tick(self.clock)
+        if Config.synchronous:
+            frame_num = self.client.get_world().tick()
+
+        x,y= self.world.get_car_state()
+
+        return x,y
     
     def record_step(self,):
         self.world.tick(self.clock)
