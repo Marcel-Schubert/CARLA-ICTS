@@ -1677,7 +1677,7 @@ class World(object):
         if conf.char == ('yielding'):
             self.path_controller_1.speed_schedule = [(path_1[0] - per * path_1[0] - carla.Location(1,0, 0), 0.8) for per in [0.0, 0.2, 0.4]]
         # self._draw_db_circle()
-        if self.debug or True:
+        if self.debug:
             # self.world.debug.draw_point(path_1[0] + 0.2 * vec, size=0.1, color=carla.Color(r=0, g=255, b=255),
             #                             life_time=0)
             self._draw_grid()
