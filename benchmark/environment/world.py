@@ -215,8 +215,6 @@ class World(object):
             self.world.get_spectator().set_transform(cam_transform)
             if not self.random:
                 self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
-
-        # TODO PAGI: ADD SCENARIO HERE
         if scenario_type == "04_int":
             self.choice = None
             self.setup_04_int(obstacles, conf)
@@ -232,7 +230,6 @@ class World(object):
             if not self.random:
                 self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
 
-        # TODO PAGI: ADD SCENARIO HERE
         if scenario_type == "05_int":
             self.choice = None
             self.setup_05_int(obstacles, conf)
@@ -248,7 +245,6 @@ class World(object):
             if not self.random:
                 self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
 
-        # TODO PAGI: ADD SCENARIO HERE
         if scenario_type == "06_int":
             self.choice = None
             self.setup_06_int(obstacles, conf)
@@ -344,10 +340,6 @@ class World(object):
             if not self.random:
                 self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
 
-
-
-        # TODO NON_INT
-
         elif scenario_type in [1, 2, 4, 5]:
             # Single pedestrian scenarios
             self.walker = self.world.try_spawn_actor(obstacles[0][0], obstacles[0][1])
@@ -402,8 +394,6 @@ class World(object):
         # Set up the sensors.
         ### Set walker flags ##
         self.walker.on_street = False
-
-        # TODO PAGI: ADD SCENARIO HERE
 
         # '05_int', '06_int' are handled in their setup
         if scenario_type in ["01_int", "02_int", "03_int", '04_int']:
@@ -691,7 +681,6 @@ class World(object):
                 self.walker.son = SON.AVERTING
 
 
-        # TODO PAGI: ADD SCENARIO HERE
         if self.scenario[0] == "04_int":
             status = self.path_controller_1.step()
             if self.dummy_car:
@@ -861,7 +850,6 @@ class World(object):
             # self.reset.step()
 
 
-        #TODO NON_INT
         if self.scenario[0] == "04_non_int":
             self.path_controller_1.step()
             self.lean_forward.step()
@@ -929,8 +917,6 @@ class World(object):
         vec = loc2 - loc1
         return loc1 + perc * vec
 
-
-# TODO NON INT
     def setup_04_non_int(self, obstacles, conf, ):
         spawning_distance = conf.spawning_distance
         looking_distance = conf.looking_distance
@@ -940,7 +926,7 @@ class World(object):
         # spawn car:
         self.incoming_car = self.world.try_spawn_actor(obstacles[1][0], obstacles[1][1])
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc + carla.Location(+2, 0, 0)
         # print(spawn_loc)
         # print(obstacles[0][1].location)
@@ -985,7 +971,7 @@ class World(object):
         # spawn car:
         self.incoming_car = self.world.try_spawn_actor(obstacles[1][0], obstacles[1][1])
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc - carla.Location(2, 0, 0)
         # print(spawn_loc)
         # print(obstacles[0][1].location)
@@ -1034,7 +1020,7 @@ class World(object):
         # spawn car:
         self.incoming_car = self.world.try_spawn_actor(obstacles[1][0], obstacles[1][1])
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc - carla.Location(2, 0, 0)
         # print(spawn_loc)
         # print(obstacles[0][1].location)
@@ -1078,7 +1064,7 @@ class World(object):
         walking_distance = conf.walking_distance
         op_reenter_distance = conf.op_reenter_distance
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc + carla.Location(+2, 0, 0)
         # print(spawn_loc)
         # print(obstacles[0][1].location)
@@ -1113,7 +1099,7 @@ class World(object):
         walking_distance = conf.walking_distance
         op_reenter_distance = conf.op_reenter_distance
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc + carla.Location(-1, 0, 0)
         self.walker = self.world.try_spawn_actor(obstacles[0][0], carla.Transform(spawn_loc, obstacles[0][1].rotation))
         self.walker.apply_control(carla.WalkerControl(carla.Vector3D(0, 0, 0), self.ped_speed))
@@ -1151,7 +1137,7 @@ class World(object):
         walking_distance = conf.walking_distance
         op_reenter_distance = conf.op_reenter_distance
 
-        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)  # TODO fix
+        base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
         spawn_loc = base_loc + carla.Location(1, 0, 0)
         self.walker = self.world.try_spawn_actor(obstacles[0][0], carla.Transform(spawn_loc, obstacles[0][1].rotation))
         self.walker.apply_control(carla.WalkerControl(carla.Vector3D(0, 0, 0), self.ped_speed))
@@ -1396,12 +1382,6 @@ class World(object):
                                                 speed=speed-1 if car_behave else speed,
                                                 yielding=car_behave
                                                 )
-
-
-
-
-    ## TODO PAGI: ADD SCENARIO HERE
-    ## ACTUAL EDIT
     def setup_04_int(self, obstacles, conf):
 
         spawning_distance = conf.spawning_distance
@@ -1415,8 +1395,10 @@ class World(object):
 
 
         street_delta = 3 if conf.char == "yielding" else 5
-        self.db = [-1, 20] if conf.char == "yielding" else [-1, 20]  # TODO
-        # TODO IF NOT EXPORTING CHANGE TO [-1,15] oder so
+        if self.dummy_car:
+            self.db = [-1, 20] if conf.char == "yielding" else [-1, 20]
+        else:
+            self.db = [-1, 15] if conf.char == "yielding" else [-1, 20]
 
         mult = 1.0 if conf.char == "yielding" else 1.1 * 1.1 * 1.1
 
@@ -1508,7 +1490,6 @@ class World(object):
                                                 )
 
 
-    ## TODO PAGI: ADD SCENARIO HERE
     ## ACTUAL EDIT
     def setup_05_int(self, obstacles, conf):
         spawning_distance = conf.spawning_distance
@@ -1520,8 +1501,11 @@ class World(object):
         self.walker.son = SON.FORCING if conf.char == "forcing" else SON.YIELDING
 
         crossing_distance = conf.crossing_distance
-        self.db = [-1, 30] if conf.char == "yielding" else [-1, 20]  # TODO
-        # TODO ONLY CHANGE IF EXPORTING
+        if self.dummy_car:
+            self.db = [-1, 30] if conf.char == "yielding" else [-1, 20]
+        else:
+            self.db = [-1, 15] if conf.char == "yielding" else [-1, 20]
+
         mult = 1.0 if conf.char == "yielding" else 1.1 * 1.1 * 1.1
 
         base_loc = obstacles[0][1].location + carla.Location(0, -spawning_distance, 0)
@@ -1627,7 +1611,13 @@ class World(object):
         car_avoid_Y = conf.car_avoid_Y
 
         street_delta = 3 if conf.char == "yielding" else 5
-        self.db = [-1, 5+ car_avoid_Y] if conf.char == "yielding" else [-1, 10]  # TODO
+
+
+        if self.dummy_car:
+            self.db = [-1, 5+ car_avoid_Y] if conf.char == "yielding" else [-1, 10]
+        else:
+            self.db = [-1, car_avoid_Y + 2] if conf.char == "yielding" else [-1, 5]
+
         mult = 1.0 if conf.char == "yielding" else 1.1 * 1.1 * 1.1
 
         # print(spawning_distance)

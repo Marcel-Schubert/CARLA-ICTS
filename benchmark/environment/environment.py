@@ -12,7 +12,6 @@ from benchmark.environment.hud import HUD
 from benchmark.learner_example import Learner
 import timeit
 
-## TODO PAGI: import configs here
 from config import (Config, Config01, Config02, Config03, Config04, Config05, Config06,
                     IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06, )
 from benchmark.scenarios.scenario import Scenario
@@ -122,7 +121,6 @@ class GIDASBenchmark(gym.Env):
                 self.val_episodes.extend(Config03().get_validation())
                 self.test_episodes.extend(Config03().get_test())
 
-            # TODO NON_INT
             elif scenario == "04_non_int":
                 self.episodes.extend(Config04().get_training())
                 self.val_episodes.extend(Config04().get_validation())
@@ -138,9 +136,6 @@ class GIDASBenchmark(gym.Env):
                 self.val_episodes.extend(Config06().get_validation())
                 self.test_episodes.extend(Config06().get_test())
 
-
-            ## TODO PAGI: add other scenarios here
-            ## ACTUAL EDIT00
             elif scenario == "04_int":
                 self.episodes.extend(IConfig04().get_training())
                 self.val_episodes.extend(IConfig04().get_validation())

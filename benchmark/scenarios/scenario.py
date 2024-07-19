@@ -331,8 +331,6 @@ class Scenario:
 
         return "03_int", obstacles, end, start
 
-    ## TODO PAGI: add scenarios here
-    ## ACTUAL EDIT
     def scenario04_int(self):
         start = (92.5, 300, -90)
         end = (92.5, 200, -90)

@@ -42,7 +42,7 @@ class CI3PP_ATT_SH_Wrapper:
         self.optim = torch.optim.Adam(lr=lr, params=self.model.parameters())
 
 
-        export_dir = './_out/weights/CI3P_ATT_SH/'
+        export_dir = './_out/weights/CI3P_ATT_SH_NEWQ/'
         self.save_path = (f'{export_dir}/CI3P_ATT_SH'
                           f'{observed_frame_num}o_'
                           f'{predicting_frame_num}p_'

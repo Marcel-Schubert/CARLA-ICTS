@@ -16,7 +16,6 @@ class CI3PP_BEF_ENC(nn.Module):
 
         self.encoder_traj = nn.GRU(input_size=64, hidden_size=128)
         self.encoder_cf = nn.GRU(input_size=64, hidden_size=128)
-        # TODO put head before gru
 
         # generate query, keys and values
         self.fc_query_traj = nn.Linear(50, 64)

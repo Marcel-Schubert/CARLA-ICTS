@@ -2,6 +2,7 @@ import os
 from copy import deepcopy
 import sys 
 sys.path.append("/workspace/data/CARLA-ICTS")
+from NotificationService.notification_service import telegram_bot_sendtext
 import torch
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
@@ -23,7 +24,7 @@ predicting_frame_num = 80
 batch_size = 1024
 train_samples = 1
 test_samples = 1
-epochs = 750
+epochs = 2000
 latent_dim = 24
 lr = 0.00005
 
@@ -225,7 +226,13 @@ class P3VIWrapper():
         count = 0
         best_eval = np.Inf
         best_eval_fde = np.Inf
+
+        last_best_epoch = 0
+        telegram_bot_sendtext("P3VI training started")
+
         for epoch in range(epochs):
+
+            did_epoch_better = False
             num_batches = int(np.floor(input_train.shape[1] / batch_size))
             ckp_loss = 0
 
@@ -278,6 +285,7 @@ class P3VIWrapper():
                     eval_loss /= test_batches * self.predicting_frame_num
                     fde_loss /= test_batches
                     if eval_loss < best_eval and fde_loss < best_eval_fde:
+                        did_epoch_better = True
                         #"{}_{}_".format(observed_frame_num, predicting_frame_num)
                         # save_path = './_out/weights/new_{}_{}_all_seed_0_p3vi_{}_{}_{}.pth'.format(epochs, batch_size,"best",self.observed_frame_num, self.predicting_frame_num)
                         print(f"Saving Model with loss:{eval_loss, fde_loss}")
@@ -287,6 +295,14 @@ class P3VIWrapper():
                     self.writer.add_scalar("eval_loss", eval_loss, count)
                     self.writer.add_scalar("fde_loss", fde_loss, count)
                     count += 1
+            if did_epoch_better:
+                print(f"Epoch {epoch} was better")
+                last_best_epoch = epoch
+            if epoch - last_best_epoch > 10:
+                telegram_bot_sendtext(
+                    f"P3VI training stopped, no improvement in 10 epochs at epoch {epoch}\nEvalLoss: {best_eval}\nFDELoss: {best_eval_fde}")
+                print(f"Stopping training, no improvement in 10 epochs")
+                break
     def evaluate(self, x_traj, x_cf, y_test):
         with torch.no_grad():
             y_pred = self.model(x_traj, x_cf)

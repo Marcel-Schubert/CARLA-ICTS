@@ -142,8 +142,6 @@ class IConfig03(ScenarioConfig):
 
 
 
-## TODO PAGI: ADD SCENARIO CONFIG HERE
-## ACTUAL EDIT
 class IConfig04(ScenarioConfig):
     def __init__(self):
         # self.ped_speed_range = [1.2,1.6]
@@ -189,8 +187,6 @@ class IConfig04(ScenarioConfig):
         print('Total scenes count (int-4): ', len(scenes))
         return scenes
 
-## TODO PAGI: ADD SCENARIO CONFIG HERE
-## ACTUAL EDIT
 class IConfig05(ScenarioConfig):
     def __init__(self):
         # self.ped_speed_range = [1.2,1.6]
@@ -356,8 +352,6 @@ class Config03(ScenarioConfig):
         print('Total scenes count (non-int-3): ', len(scenes))
         return scenes
 
-
-#TODO NON_INT
 class Config04(ScenarioConfig):
     def __init__(self):
         self.ped_speed_range =  [1.6,2.0] #6
@@ -480,7 +474,6 @@ class Config:
     ped_speed_range = [1.8, 2.2]
     ped_distance_range = [25, 30]
     # car_speed_range = [6, 9]
-    #TODO PAGI: ADD SCENARIO HERE
     scenarios = ['01_int','02_int','03_int', '04_int', '05_int', '06_int', '01_non_int','02_non_int','03_non_int']#,'02_non_int','03_non_int']#,'02_non_int']#,"02_int", "03_int"  #, '02', '03', '04', '05', '06', '07', '08', '09']
     #scenarios = ['01_int','02_int','03_int']
     #scenarios = ['01','02', '03', '04', '05', '06', '07', '08', '09']
