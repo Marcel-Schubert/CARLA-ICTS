@@ -686,7 +686,6 @@ class World(object):
             if self.dummy_car:
                 self.car_controller.step()
             # self.look_behind_right.step()
-            # self.raise_arm.step()
             self.turn_head.step()
             self.resetLD1.step()
 
@@ -799,7 +798,7 @@ class World(object):
                     self.reset.step()
                     self.path_controller_3.step()
                 elif self.choice == "Continue":
-                    # self.raise_arm.step()
+                    self.raise_arm.step()
                     self.reset.step()
                     self.path_controller_2.step()
                 else:
@@ -1438,7 +1437,6 @@ class World(object):
 
         # self.look_behind_right = LookBehindRight(self.walker, path_1[1], conf.char)
         self.turning_point = self.get_p_from_vector(path_1[0], path_1[1], 0.1)
-        # self.raise_arm = RaiseArm(self.walker, self.turning_point, char="forcing")
         self.look_behind_left = LookBehindLeft(self.walker, mult=2)
         self.reset = ResetPose(self.walker)
 
@@ -1554,7 +1552,6 @@ class World(object):
 
         self.look_behind_right = LookBehindRight(self.walker, path_1[0], conf.char)
         self.turning_point = self.get_p_from_vector(path_1[0], path_1[0], 0.1)
-        self.raise_arm = RaiseArm(self.walker, self.turning_point, char="forcing")
         self.look_behind_left = LookBehindLeft(self.walker, mult=2)
         self.reset = ResetPose(self.walker)
 
@@ -1655,7 +1652,7 @@ class World(object):
 
         self.look_behind_right = LookBehindRight(self.walker, path_1[0], conf.char)
         self.turning_point = self.get_p_from_vector(path_1[0], path_1[0], 0.1)
-        # self.raise_arm = RaiseArm(self.walker, path_1[0], char="forcing")
+        self.raise_arm = RaiseArm(self.walker, path_1[0], "forcing", self.get_p_from_vector(path_1[0],  self.path_2[0], 0.5))
         self.look_behind_left = LookBehindLeft(self.walker, mult=2)
         self.reset = ResetPose(self.walker)
 
@@ -1680,7 +1677,8 @@ class World(object):
 
         player_loc = self.player.get_location()
         breaking_point = carla.Location(player_loc.x,self.desc_p.y+self.db[0], 0.5)
-        car_behave = conf.char == "forcing"
+        # car_behave = conf.char == "forcing"
+        car_behave = True
         car_to_desc = self.player.get_location().y-self.desc_p.y-self.db[1]
         ped_to_desc = l2_distance(self.walker.get_location(), self.desc_p)
         ped_time = ped_to_desc/self.ped_speed

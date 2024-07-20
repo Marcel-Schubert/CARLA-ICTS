@@ -5,7 +5,6 @@ run_environment.py
 __pycache__/
 temp.py
 _out/
-BiTrap/
 temp_check/
 .ipynb_checkpoints/
 temp_check/path_predictor/data/

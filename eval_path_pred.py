@@ -1,10 +1,9 @@
-from CI3PP.ATT.model import CI3P_ATT
-from CI3PP.ATT.train import CI3PP_ATT_Wrapper
-from CI3PP.ATT_BH.train import CI3PP_ATT_BH_Wrapper
+from ped_path_predictor.CI3PP.ATT.train import CI3PP_ATT_Wrapper
+from ped_path_predictor.CI3PP.ATT_BH.train import CI3PP_ATT_BH_Wrapper
 from w_and_b.ATT_BH.train import CI3PP_ATT_BH_Wrapper as CI3PP_ATT_BH_Wrapper_WANDB
-from CI3PP.ATT_SH.train import CI3PP_ATT_SH_Wrapper
-from CI3PP.CVAE.train import CI3PP_CVAE_WRAPPER
-from CI3PP.CVAE_ATT.train import CI3PP_CVAE_ATT_WRAPPER
+from ped_path_predictor.CI3PP.ATT_SH.train import CI3PP_ATT_SH_Wrapper
+from ped_path_predictor.CI3PP.CVAE.train import CI3PP_CVAE_WRAPPER
+from ped_path_predictor.CI3PP.CVAE_ATT.train import CI3PP_CVAE_ATT_WRAPPER
 from P3VI.train import P3VIWrapper
 from ped_path_predictor.m2p3 import PathPredictor
 from prettytable import PrettyTable

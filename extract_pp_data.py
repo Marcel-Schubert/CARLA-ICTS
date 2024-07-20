@@ -45,8 +45,8 @@ def run(args):
     #     # file = "./P3VI/data/int_new_prelim.npy"
     # else:
         #file = "./P3VI/data/01_non_int_prelim.npy"
-        file = f"./P3VI/data/car_dump/{Config.scenarios[0]}.npy"
-        car_file = f"./P3VI/data/car_dump/{Config.scenarios[0]}_car.npy"
+        file = f"./P3VI/data/{Config.scenarios[0]}.npy"
+        car_file = f"./P3VI/data/{Config.scenarios[0]}_car.npy"
         # file = f"./P3VI/data/ICTS2_non_int_{datetime.today().strftime('%Y-%m-%d_%H-%M-%S')}.npy"
 
 
@@ -158,41 +158,6 @@ if __name__ == '__main__':
     print('Env. port: {}'.format(Config.port))
     Config.port = args.port
     Config.qw = args.qw
-    if args.int:
-        # TODO PAGI: ADD SCENARIO HERE
-        # Config.scenarios = ["01_int", "02_int", "03_int", "04_int", "05_int", "06_int"]
-        Config.scenarios = [
-            "01_int",
-            # "02_int",
-            # "03_int",
-            # "04_int",
-            # "05_int",
-            # "06_int"
-        ]
-        # Config.scenarios = ["01_int"]
-        # Config.scenarios = ["02_int"]
-        # Config.scenarios = ["03_int"]
-        # Config.scenarios = ["04_int"]
-        # Config.scenarios = ["05_int"]
-        # Config.scenarios = ["06_int"]
-        # Config.scenarios = ["0000_int"]
-        # Config.scenarios = ["03_int"]
-        # Config.scenarios = ["02_non_int"]
-    else:
-        Config.scenarios = [
-            # "01_non_int",
-            # "02_non_int",
-            # "03_non_int",
-            # "04_non_int",
-            # "05_non_int",
-            "06_non_int"
-        ]
-        # Config.scenarios = ["01_non_int"]
-        # Config.scenarios = ["02_non_int"]
-        # Config.scenarios = ["03_non_int"]
-        # Config.scenarios = ["04_non_int"]
-        # Config.scenarios = ["05_non_int"]
-        # Config.scenarios = ["06_non_int"]
     print(Config.scenarios)
     # p = Process(target=run_server)
     # p.start()

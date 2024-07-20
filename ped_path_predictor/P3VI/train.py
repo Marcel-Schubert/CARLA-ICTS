@@ -14,17 +14,17 @@ from torch import nn, optim
 from torch.optim.lr_scheduler import MultiStepLR
 
 from datetime import datetime as dt
-from P3VI.new_util import getDataloaders, singleDatasets
+from ped_path_predictor.new_util import getDataloaders, singleDatasets
 
-path_int = "./P3VI/data/new_car/all_int.npy"
-path_non_int = "./P3VI/data/new_car/all_non_int.npy"
+path_int = "./ped_path_predictor/data/new_car/all_int.npy"
+path_non_int = "./ped_path_predictor/data/new_car/all_non_int.npy"
 
-path_int_car = "./P3VI/data/new_car/all_int_car.npy"
-path_non_int_car = "./P3VI/data/new_car/all_non_int_car.npy"
+path_int_car = "./ped_path_predictor/data/new_car/all_int_car.npy"
+path_non_int_car = "./ped_path_predictor/data/new_car/all_non_int_car.npy"
 
 
-n_obs = 15
-n_pred = 20
+n_obs = 60
+n_pred = 80
 batch_size = 512
 lr = 0.001
 
@@ -215,85 +215,85 @@ class P3VIWrapper:
 
 
 if __name__ == '__main__':
-    # abw = P3VIWrapper()
-    # abw.train()
 
-    abw_eval = P3VIWrapper(path="./_out/P3VIWrapper/obs15_pred20/2024-07-11_20-43-06/model_48.pth")
+    if "--test" in sys.argv:
+        abw_eval = P3VIWrapper(path="./ped_path_predictor/saved_models/60_80/ci3p.pth")
 
-    # dl = singleDatasets(("./P3VI/data/new_car/01_int_cleaned.npy", "./P3VI/data/new_car/01_int_cleaned_car.npy"), 60, 80, 512)
-    #
-    # dl = singleDatasets(("./P3VI/data/new_car/01_int_cleaned.npy", "./P3VI/data/new_car/01_int_cleaned_car.npy"), n_obs,
-    #                     n_pred, 512)
-    # int_1_a, int_1_f = abw_eval.eval(dl)
-    # print(f"\nINT-1 {int_1_a:.4f} {int_1_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/01_int_cleaned.npy", "./ped_path_predictor/data/new_car/01_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_1_a, int_1_f = abw_eval.eval(dl)
+        print(f"\nINT-1 {int_1_a:.4f} {int_1_f:.4f}")
 
-    dl = singleDatasets(("./P3VI/data/new_car/02_int_cleaned.npy", "./P3VI/data/new_car/02_int_cleaned_car.npy"), n_obs,
-                        n_pred, 512)
-    int_2_a, int_2_f = abw_eval.eval(dl)
-    print(f"\nINT-2 {int_2_a:.4f} {int_2_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/02_int_cleaned.npy", "./ped_path_predictor/data/new_car/02_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_2_a, int_2_f = abw_eval.eval(dl)
+        print(f"\nINT-2 {int_2_a:.4f} {int_2_f:.4f}")
 
-    dl = singleDatasets(("./P3VI/data/new_car/03_int_cleaned.npy", "./P3VI/data/new_car/03_int_cleaned_car.npy"), n_obs,
-                        n_pred, 512)
-    int_3_a, int_3_f = abw_eval.eval(dl)
-    print(f"\nINT-3 {int_3_a:.4f} {int_3_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/03_int_cleaned.npy", "./ped_path_predictor/data/new_car/03_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_3_a, int_3_f = abw_eval.eval(dl)
+        print(f"\nINT-3 {int_3_a:.4f} {int_3_f:.4f}")
 
-    dl = singleDatasets(("./P3VI/data/new_car/04_int_cleaned.npy", "./P3VI/data/new_car/04_int_cleaned_car.npy"), n_obs,
-                        n_pred, 512)
-    int_4_a, int_4_f = abw_eval.eval(dl)
-    print(f"\nINT-1 {int_4_a:.4f} {int_4_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/04_int_cleaned.npy", "./ped_path_predictor/data/new_car/04_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_4_a, int_4_f = abw_eval.eval(dl)
+        print(f"\nINT-1 {int_4_a:.4f} {int_4_f:.4f}")
 
-    dl = singleDatasets(("./P3VI/data/new_car/05_int_cleaned.npy", "./P3VI/data/new_car/05_int_cleaned_car.npy"), n_obs,
-                        n_pred, 512)
-    int_5_a, int_5_f = abw_eval.eval(dl)
-    print(f"\nINT-5 {int_5_a:.4f} {int_5_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/05_int_cleaned.npy", "./ped_path_predictor/data/new_car/05_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_5_a, int_5_f = abw_eval.eval(dl)
+        print(f"\nINT-5 {int_5_a:.4f} {int_5_f:.4f}")
 
-    dl = singleDatasets(("./P3VI/data/new_car/06_int_cleaned.npy", "./P3VI/data/new_car/06_int_cleaned_car.npy"), n_obs,
-                        n_pred, 512)
-    int_6_a, int_6_f = abw_eval.eval(dl)
-    print(f"\nINT-6 {int_6_a:.4f} {int_6_f:.4f}")
+        dl = singleDatasets(("./ped_path_predictor/data/new_car/06_int_cleaned.npy", "./ped_path_predictor/data/new_car/06_int_cleaned_car.npy"), n_obs,
+                            n_pred, 512)
+        int_6_a, int_6_f = abw_eval.eval(dl)
+        print(f"\nINT-6 {int_6_a:.4f} {int_6_f:.4f}")
 
-    # print("\npure test", abw_eval.eval(abw_eval.test_loader))
+        # print("\npure test", abw_eval.eval(abw_eval.test_loader))
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/01_non_int_cleaned.npy", "./P3VI/data/new_car/01_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_1_a, non_int_1_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-1 {non_int_1_a:.4f} {non_int_1_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/01_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/01_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_1_a, non_int_1_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-1 {non_int_1_a:.4f} {non_int_1_f:.4f}")
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/02_non_int_cleaned.npy", "./P3VI/data/new_car/02_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_2_a, non_int_2_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-2 {non_int_2_a:.4f} {non_int_2_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/02_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/02_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_2_a, non_int_2_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-2 {non_int_2_a:.4f} {non_int_2_f:.4f}")
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/03_non_int_cleaned.npy", "./P3VI/data/new_car/03_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_3_a, non_int_3_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-3 {non_int_3_a:.4f} {non_int_3_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/03_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/03_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_3_a, non_int_3_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-3 {non_int_3_a:.4f} {non_int_3_f:.4f}")
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/04_non_int_cleaned.npy", "./P3VI/data/new_car/04_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_4_a, non_int_4_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-4 {non_int_4_a:.4f} {non_int_4_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/04_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/04_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_4_a, non_int_4_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-4 {non_int_4_a:.4f} {non_int_4_f:.4f}")
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/05_non_int_cleaned.npy", "./P3VI/data/new_car/05_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_5_a, non_int_5_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-5 {non_int_5_a:.4f} {non_int_5_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/05_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/05_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_5_a, non_int_5_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-5 {non_int_5_a:.4f} {non_int_5_f:.4f}")
 
-    dl = singleDatasets(
-        ("./P3VI/data/new_car/06_non_int_cleaned.npy", "./P3VI/data/new_car/06_non_int_cleaned_car.npy"), n_obs, n_pred,
-        512)
-    non_int_6_a, non_int_6_f = abw_eval.eval(dl)
-    print(f"\nNON-INT-6 {non_int_6_a:.4f} {non_int_6_f:.4f}")
+        dl = singleDatasets(
+            ("./ped_path_predictor/data/new_car/06_non_int_cleaned.npy", "./ped_path_predictor/data/new_car/06_non_int_cleaned_car.npy"), n_obs, n_pred,
+            512)
+        non_int_6_a, non_int_6_f = abw_eval.eval(dl)
+        print(f"\nNON-INT-6 {non_int_6_a:.4f} {non_int_6_f:.4f}")
 
-    print("\n\n\n")
-    print("INT")
-    print(
-        f"&CI3P & {int_1_a:.4f}/{int_1_f:.4f} & {int_2_a:.4f}/{int_2_f:.4f} & {int_3_a:.4f}/{int_3_f:.4f} & {int_4_a:.4f}/{int_4_f:.4f} & {int_5_a:.4f}/{int_5_f:.4f} & {int_6_a:.4f}/{int_6_f:.4f} \\\\")
-    print("NON-INT")
-    print(
-        f"&CI3P & {non_int_1_a:.4f}/{non_int_1_f:.4f} & {non_int_2_a:.4f}/{non_int_2_f:.4f} & {non_int_3_a:.4f}/{non_int_3_f:.4f} & {non_int_4_a:.4f}/{non_int_4_f:.4f} & {non_int_5_a:.4f}/{non_int_5_f:.4f} & {non_int_6_a:.4f}/{non_int_6_f:.4f} \\\\")
+        print("\n\n\n")
+        print("INT")
+        print(
+            f"&CI3P & {int_1_a:.4f}/{int_1_f:.4f} & {int_2_a:.4f}/{int_2_f:.4f} & {int_3_a:.4f}/{int_3_f:.4f} & {int_4_a:.4f}/{int_4_f:.4f} & {int_5_a:.4f}/{int_5_f:.4f} & {int_6_a:.4f}/{int_6_f:.4f} \\\\")
+        print("NON-INT")
+        print(
+            f"&CI3P & {non_int_1_a:.4f}/{non_int_1_f:.4f} & {non_int_2_a:.4f}/{non_int_2_f:.4f} & {non_int_3_a:.4f}/{non_int_3_f:.4f} & {non_int_4_a:.4f}/{non_int_4_f:.4f} & {non_int_5_a:.4f}/{non_int_5_f:.4f} & {non_int_6_a:.4f}/{non_int_6_f:.4f} \\\\")
+    else:
+        abw = P3VIWrapper()
+        abw.train()

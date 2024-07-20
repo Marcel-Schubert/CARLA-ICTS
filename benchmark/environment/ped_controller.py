@@ -167,9 +167,10 @@ class LookBehindLeftSpine(object):
 
 
 class RaiseArm(object):
-    def __init__(self, walker, start_pos, char):
+    def __init__(self, walker, start_pos, char, end_pos):
         self.walker = walker
         self.start_pos = start_pos
+        self.end_pos = end_pos
         self.done = False
         if char == "forcing":
             self.spine_roll = 60
@@ -182,28 +183,44 @@ class RaiseArm(object):
             return "Done"
         direction = self.walker.get_location() - self.start_pos
         direction_norm = math.sqrt(direction.x**2 + direction.y**2)
-        if direction_norm > 0.2:
+        if direction_norm < 0.2:
             return "Running"
+
+        direction_end = self.walker.get_location() - self.end_pos
+        direction_norm_end = math.sqrt(direction_end.x ** 2 + direction_end.y ** 2)
+        if direction_norm_end < 0.2:
+            self.walker.blend_pose(0)
+            self.done = True
+            return "Done"
+
 
         bones = self.walker.get_bones()
         new_pose = []
 
         for bone in bones.bone_transforms:
             if bone.name == "crl_arm__R":
-                bone.relative.rotation.pitch = -90
+                bone.relative.rotation.pitch -= 45
             #     bone.relative.rotation.roll = 90
             #     # bone.relative.rotation.yaw = 0
                 new_pose.append((bone.name, bone.relative))
             if bone.name == "crl_shoulder__R":
-                # bone.relative.rotation.pitch = 90
-                bone.relative.rotation.roll = 45
+                bone.relative.rotation.pitch -= -1
+                bone.relative.rotation.roll += 20
                 # bone.relative.rotation.yaw = 90
                 new_pose.append((bone.name, bone.relative))
             if bone.name == "crl_foreArm__R":
-                bone.relative.rotation.pitch = -10
-                bone.relative.rotation.roll = 88
+                bone.relative.rotation.pitch -= 10
+                bone.relative.rotation.roll += 40
                 # bone.relative.rotation.yaw = -45
                 new_pose.append((bone.name, bone.relative))
+            else:
+                new_pose.append((bone.name, bone.relative))
+
+        control = carla.WalkerBoneControlIn()
+        control.bone_transforms = new_pose
+        self.walker.set_bones(control)
+
+        self.walker.blend_pose(0.7)
 
 
             # if bone.name == "crl_neck__C":
@@ -222,11 +239,12 @@ class RaiseArm(object):
             #     new_pose.append((bone.name, bone.relative))
 
 
-        control = carla.WalkerBoneControlIn()
-        control.bone_transforms = new_pose
-        self.walker.set_bones(control)
-        self.walker.blend_pose(0.5)
-        self.sone = True
+        # control = carla.WalkerBoneControlIn()
+        # control.bone_transforms = new_pose
+        # self.walker.set_bones(control)
+        # self.walker.blend_pose(1.0)
+
+
         return "Done"
 
 class LookBehindLeft(object):
