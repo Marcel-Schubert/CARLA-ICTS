@@ -27,6 +27,5 @@ ISDESPOT/isdespot-ped-pred/is-despot/problems/isdespotp_car/cmake-build-debug/
 /hyleap/smart-car-sim-master/is-despot/build/
 .vscode/
 cp_debug/
-*.png
 #*.npy
 *.mp4
