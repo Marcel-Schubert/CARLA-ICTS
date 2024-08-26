@@ -13,7 +13,7 @@ from benchmark.learner_example import Learner
 import timeit
 
 from config import (Config, Config01, Config02, Config03, Config04, Config05, Config06,
-                    IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06, )
+                    IConfig01, IConfig02, IConfig03, IConfig04, IConfig05, IConfig06, ConfigWalking)
 from benchmark.scenarios.scenario import Scenario
 
 
@@ -150,6 +150,10 @@ class GIDASBenchmark(gym.Env):
                 self.episodes.extend(IConfig06().get_training())
                 self.val_episodes.extend(IConfig06().get_validation())
                 self.test_episodes.extend(IConfig06().get_test())
+            elif scenario == "walking":
+                self.episodes.extend(ConfigWalking().get_training())
+                self.val_episodes.extend(ConfigWalking().get_validation())
+                self.test_episodes.extend(ConfigWalking().get_test())
 
 
             else:
@@ -326,9 +330,6 @@ class GIDASBenchmark(gym.Env):
         return x,y,icr,son
 
     def extract_car_pos(self):
-        self.world.tick(self.clock)
-        if Config.synchronous:
-            frame_num = self.client.get_world().tick()
 
         x,y= self.world.get_car_state()
 

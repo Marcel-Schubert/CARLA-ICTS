@@ -339,7 +339,16 @@ class World(object):
             self.world.get_spectator().set_transform(cam_transform)
             if not self.random:
                 self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
-
+        elif scenario_type == "walking":
+            self.setup_walking(obstacles,conf)
+            cam_transform = carla.Transform(
+                carla.Location(spawn_point.location.x,
+                               spawn_point.location.y - 20,
+                               spawn_point.location.z + 15),
+                carla.Rotation(-30, 270, 0))
+            self.world.get_spectator().set_transform(cam_transform)
+            if not self.random:
+                self.player.set_target_velocity(carla.Vector3D(0, -6, 0))
         elif scenario_type in [1, 2, 4, 5]:
             # Single pedestrian scenarios
             self.walker = self.world.try_spawn_actor(obstacles[0][0], obstacles[0][1])
@@ -869,6 +878,9 @@ class World(object):
             self.iss_crossed.step()
             self.look_right.step()
             self.reset.step()
+
+        if self.scenario[0] == "walking":
+            self.path_controller_1.step()
 
     def second_decider(self, distance, dec_d=None):
         if self.random:
@@ -1690,6 +1702,33 @@ class World(object):
                                                 yielding=car_behave
                                                 )
 
+
+    def setup_walking(self, obstacles, conf, ):
+        walking_distance = conf.walking_distance
+        print(walking_distance)
+
+        base_loc = obstacles[0][1].location
+        spawn_loc = base_loc - carla.Location(2, 0, 0)
+        # print(spawn_loc)
+        # print(obstacles[0][1].location)
+        self.walker = self.world.try_spawn_actor(obstacles[0][0], carla.Transform(spawn_loc, obstacles[0][1].rotation))
+        self.walker.apply_control(carla.WalkerControl(carla.Vector3D(0, 0, 0), self.ped_speed))
+        self.world.tick()
+        street_dist = 17.5
+
+        loc = self.walker.get_location()
+        path_1 = [loc, carla.Location(loc.x, loc.y + walking_distance, 0.5)]
+
+        self.path_controller_1 = PathController(self.world, self.walker, path_1, self.ped_speed)
+
+        self.walker.initial_son = SON.YIELDING if conf.char == "yielding" else SON.FORCING
+        self.iss_crossed = InternalStateSetter(self.walker, path_1[0], icr=ICR.VERY_LOW, son=SON.AVERTING)
+        if self.dummy_car:
+            self.car_controller = CarController(self.player,
+                                                braking_point=None,
+                                                speed=5,
+                                                yielding=False
+                                                )
 
 
 

@@ -183,6 +183,23 @@ def getDataloaders(path_int, path_non_int, path_int_car, path_non_int_car, n_obs
 
     return train_dataloader, test_dataloader, val_dataloader
 
+class FakeDataset(Dataset):
+    def __init__(self):
+        super().__init__()
+
+        input_ped = np.ones((1, 60, 4)) * [250,85,1,1]
+        input_car = np.linspace([300,92], [270,92], num=60)[np.newaxis, :, :]
+        self.x = np.concatenate([input_ped, input_car], axis=-1, dtype=np.float32)
+        cross = np.linspace([250,85], [240,95], num=64)
+        walk = np.linspace([240,85], [235,85], num=16)
+        self.y = np.concatenate([cross, walk], dtype=np.float32)
+
+    def __len__(self):
+        return len(self.x)
+    
+    def __getitem__(self, idx):
+        return self.x[idx], self.y[idx]
+
 
 class SingleIctsDataset(Dataset):
     def __init__(self, path_ped, path_car, n_obs, n_pred) -> None:
@@ -224,3 +241,6 @@ def singleDatasets(path_tuple, n_obs, n_pred, batch_size=64):
 def singleDatasetsDynGroup(path_tuple, n_obs, n_pred, batch_size=64):
     dataset = SingleIctsDatasetDynGroup(path_tuple[0], path_tuple[1], n_obs, n_pred)
     return DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
+
+def fakeDataset():
+    return DataLoader(FakeDataset(), batch_size=1, shuffle=False, num_workers=0)

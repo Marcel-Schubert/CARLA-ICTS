@@ -24,6 +24,7 @@ class ScenarioConfig():
         self.n_scenes = len(self.scenes)
         #self.split = [0.18,0.35,0.55] # 0.2, 0.2, 0.6
         self.split = [0.5,0.6,1.0]
+
     def get_scenes(self):
         return []
     
@@ -452,7 +453,23 @@ class Config06(ScenarioConfig):
         print('Total scenes count (non-int-6): ', len(scenes))
         return scenes
 
+class ConfigWalking(ScenarioConfig):
+    def __init__(self):
+        self.ped_speed_range =  [1.2,1.5] #6
+        self.walking_distances = [30,50] #3
+        #character = ["yielding", "forcing"]
+        super(ConfigWalking,self).__init__()
 
+    def get_scenes(self):
+        scenes = []
+        for speed in np.arange(self.ped_speed_range[0], self.ped_speed_range[1]+0.1,0.1):
+            for walking_distance in np.arange(self.walking_distances[0], self.walking_distances[1]+5,5):
+                conf = ControllerConfig(speed)
+                conf.walking_distance = int(walking_distance)
+                scenes.append(("walking", conf))
+        print('Total scenes count (walking): ', len(scenes))
+        return scenes
+    
 class Config:
     PI = 3.14159
 

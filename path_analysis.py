@@ -8,8 +8,8 @@ from P3VI.utils import load_data
 # from ped_path_predictor.m2p3_60_80 import PathPredictor
 from ped_path_predictor.model import M2P3
 
-data = "./P3VI/data/single/01_int.npy"
-data2 = './P3VI/data/car_dump/01_int.npy'
+data = "./P3VI/data/01_int.npy"
+data2 = './P3VI/data/01_int_car.npy'
 
 
 n_obs = 60

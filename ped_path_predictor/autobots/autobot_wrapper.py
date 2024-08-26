@@ -2,7 +2,7 @@ import sys
 
 from matplotlib import pyplot as plt
 
-sys.path.append("/workspace/data/CARLA-ICTS")
+sys.path.append(".")
 import logging
 import os
 import time
@@ -12,7 +12,7 @@ from torch import nn, optim
 from torch.optim.lr_scheduler import MultiStepLR
 
 from datetime import datetime as dt
-from ped_path_predictor.new_util import singleDatasets, getDataloaders
+from ped_path_predictor.new_util import singleDatasets, getDataloaders, fakeDataset
 from ped_path_predictor.autobots.AutoBots.models.autobot_ego import AutoBotEgo
 from ped_path_predictor.autobots.AutoBots.utils.train_helpers import nll_loss_multimodes
 
@@ -111,9 +111,9 @@ class AutoBotWrapperNew:
             a, f = torch.square(ego_preds[:, :, :, :2] - ego_gt[:, :, :, :2]).sum(-1).sqrt().sum().item(), torch.square(
                 (ego_preds[:, -1:, :, :2] - ego_gt[:, -1:, :, :2])).sum(-1).sqrt().sum().item()
 
-            some = False
+            some = True
             if some == True:
-                index = 435
+                index = 140
                 # # make output relative to the last observed frame
                 i_t = ego_in[:, 60 - 1:, 0:2].detach().cpu().numpy()
                 i_t = np.expand_dims(i_t, axis=1)
@@ -126,12 +126,12 @@ class AutoBotWrapperNew:
                 ego_preds = ego_preds.squeeze(0).transpose(0, 1)
                 ego_preds = ego_preds[:, :, :2].cpu().numpy() + i_t
 
-                plt.plot(ego_in[index, :, 0].cpu().numpy(), ego_in[index, :, 1].cpu().numpy())
+                ego_in = ego_in.cpu().numpy()
+
+                plt.plot(ego_in[index, :, 0], ego_in[index, :, 1])
                 plt.plot(ego_gt[index, :, 0], ego_gt[index, :, 1])
                 plt.plot(ego_preds[index, :, 0], ego_preds[index, :, 1])
 
-                plt.xlim(70, 100)
-                plt.ylim(220, 250)
 
                 plt.title("Sample Trajectory Prediction (Interactive 1)\n AutoBot")
                 plt.legend(["Observed", "Ground Truth", "Predicted"])
@@ -202,6 +202,7 @@ class AutoBotWrapperNew:
         eval_loss = 0
         fde_loss = 0
         self.model.eval()
+        prev_pred_obs = None
         with torch.no_grad():
             for j, (x_val, y_val) in enumerate(dataloader):
                 print(f'\rBatch {j}/{len(dataloader)}', end='')
@@ -214,13 +215,26 @@ class AutoBotWrapperNew:
                 eval_loss += a / n_pred
                 fde_loss += f
         self.model.train()
-        eval_loss /= len(dataloader) * batch_size
-        fde_loss /= len(dataloader) * batch_size
+        eval_loss /= len(dataloader) * dataloader.batch_size
+        fde_loss /= len(dataloader) * dataloader.batch_size
         return eval_loss, fde_loss
 
 
 if __name__ == '__main__':
-    if "--test" in sys.argv:
+    if "--preliminary-test" in sys.argv:
+        abw_eval = AutoBotWrapperNew(path='./ped_path_predictor/saved_models/60_80/autobots.pth')
+
+        dl = singleDatasets(("./ped_path_predictor/data/fake01.npy", "./ped_path_predictor/data/fake01_car.npy"), n_obs, n_pred, 512)
+        a, f = abw_eval.eval(dl)
+        print(f"\nFAKE {a:.4f} {f:.4f}")
+
+        # dl = singleDatasets(("./P3VI/data/walking_cleaned.npy", "./P3VI/data/walking_cleaned_car.npy"), n_obs, n_pred, 512)
+        # int_1_a, int_1_f = abw_eval.eval(dl)
+        # print(f"\nWALKING {int_1_a:.4f} {int_1_f:.4f}")
+
+
+
+    elif "--test" in sys.argv:
 
         abw_eval = AutoBotWrapperNew(path='./ped_path_predictor/saved_models/60_80/autobots.pth')
 

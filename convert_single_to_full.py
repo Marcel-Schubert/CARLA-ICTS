@@ -15,21 +15,22 @@ import matplotlib.path as mpath
 
 
 interactive_scenarios = [
-    "01_int",
-    "02_int",
-    "03_int",
-    "04_int",
-    "05_int",
-    "06_int"
+    # "01_int",
+    # "02_int",
+    # "03_int",
+    # "04_int",
+    # "05_int",
+    # "06_int"
 ]
 
 non_interactive_scenarios = [
-    "01_non_int",
-    "02_non_int",
-    "03_non_int",
-    "04_non_int",
-    "05_non_int",
-    "06_non_int"
+    # "01_non_int",
+    # "02_non_int",
+    # "03_non_int",
+    # "04_non_int",
+    # "05_non_int",
+    # "06_non_int"
+    "walking"
     ]
 
 all_int = np.empty(0)
